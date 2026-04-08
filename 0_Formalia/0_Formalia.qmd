@@ -40,64 +40,116 @@ Aufnahme läuft.
 
 \vfill
 
-# (0) Einführung - Titelfolie {.plain}
-\vfill
-\center
-\huge
-\textcolor{black}{(0) Einführung}
-\vfill
-
-# Modul C: Einführung in empirisch-wissenschaftliches Arbeiten
+# Formalia
 \setstretch{2}
-\textcolor{darkblue}{C1. Programmierung und Deskriptive Statistik}
+
+**Modul C: Einführung in empirisch-wissenschaftliches Arbeiten**
+
+C1. Programmierung und Deskriptive Statistik (2 SWS) (WiSe)
 
 * Einführung in die datenanalytische Programmierung
 * Einführung in die Auswertung deskriptiver Statistiken mit R in Visual Studio Code
 
 \vspace{3mm}
 
-\textcolor{darkblue}{C2. Analyse und Dokumentation}
+C2. Analyse und Dokumentation (2 SWS) (SoSe)
 
 * Praktische Analyse empirischer Daten
 * Dokumentation empirischer Studien und Analysen
 
-# Inhalte in C2 - Analyse und Dokumentation
+# Formalia
 
-\setstretch{2.3}
-\small 
+\setstretch{1.5}
 
-* \small Einführung in die Ethik und die ethischen Formalitäten der psychologischen Forschung
-* Einführung in wissenschaftliche Dokumentationstools wie \textcolor{linkblue}{\href{https://quarto.org/}{Quarto}} und \textcolor{linkblue}{\href{https://www.zotero.org/}{Zotero}}
-* Grundlagen zur Offenheit und Transparenz in der Wissenschaft
-* Übersicht zu häufig benutzten Strukturen wissenschaftlicher Berichte
-* Fokus auf quantitativ-empirische Artikel und Präsentationen
-* Introduction, Methods, Results, Discussion
-* Weiterentwicklung von **R** Kenntnissen
-* Bearbeitung von Anwendungsfällen des Allgemeinen Linearen Modells.
-* Dokumentation und Präsentation der bearbeiteten Anwendungsfälle.
+Inhalte in C2. Analyse und Dokumentation
 
-# Struktur in C2 - Analyse und Dokumentation
-\setstretch{1.3}
-
-\textcolor{darkblue}{Seminarbestandteile}
-
-\begin{itemize} \justifying
-\item \textbf{Seminare} (Termine 1-3 und 5): Theoretische Einführung
-\item \textbf{Praxisseminar} (Termin 4): Offene Übung mit Hilfestellung der Lehrpersonen
-\item \textbf{Übung} (Termine 6-13): Anwendung der erlernten Konzepte in von Studierenden geleiteten Präsenzübungen (Gruppenarbeit) mit Hilfestellung der Lehrpersonen.
+\begin{itemize}
+\item Grundlagen wissenschaftlichen Arbeitens: Forschungsethik, Offenheit und Transparenz
+\item Struktur wissenschaftlicher Berichte und Präsentationen mit Fokus auf quantitativ-empirischer Forschung (Introduction, Methods, Results, Discussion)
+\item Wissenschaftliche Dokumentationstools: \textcolor{linkblue}{\href{https://quarto.org/}{Quarto}} und \textcolor{linkblue}{\href{https://www.zotero.org/}{Zotero}}
+\item Anwendungsfälle des Allgemeinen Linearen Modells mit \textbf{R}
+\item Dokumentation und Präsentation der bearbeiteten Anwendungsfälle
 \end{itemize}
 
-\textcolor{darkblue}{Vor- und Nachbereitung}
+
+# Formalia
+\setstretch{1.5}
+Organisation
+
+\small
+
+\begin{itemize}
+\item Freitags 11-13 Uhr (Gruppe 1) und 13-15 Uhr (Gruppe 2) in Raum: G22A-011
+\item Zusatz-Termin (Praxisseminar) am Mittwoch, den 29.04.
+\item Verschiebungen: 22.05. $\rightarrow$ Montag, den 18.05; 12.06. $\rightarrow$ Mittwoch, den 10.06.; \\ 19.06. $\rightarrow$ 26.06. (Doppeltermin)
+\item Tutorien (2 Gruppen, Mittwochs): Organisation über die \textcolor{linkblue}{\href{https://elearning.ovgu.de/course/view.php?id=20573}{Moodleseite des Tutoriums}}
+\item Kursmaterialien (Folien, Videos, Source Code) auf der \textcolor{linkblue}{\href{https://www.ipsy.ovgu.de/Institut/Abteilungen+des+Institutes/Methodenlehre+I/Lehre/Sommersemester+2026/Analyse+und+Dokumentation.html}{Kurswebseite}}
+\item Code auf \textcolor{linkblue}{\href{https://github.com/belinda-fleischmann/analyse-und-doku-26}{Github}}
+\item Ankündigungen über die \textcolor{linkblue}{\href{https://elearning.ovgu.de/course/view.php?id=20741}{Moodleseite des Seminars}}
+\item Modulprüfung am Ende des Semesters (30 Multiple Choice Fragen)
+\item Klausurtermin und Klausurort gemäß Prüfungsplan des \textcolor{linkblue}{\href{https://www.fnw.ovgu.de/Studium/Prüfungsamt/Prüfungspläne.html}{FNW Prüfungsamtes}}
+\item Klausurwiederholungstermin am Ende des Wintersemesters 2026/27
+\end{itemize}
+
+# Formalia
+\setstretch{1.8}
+
+\vfill
+\center
+\footnotesize
+
+\begin{tabular}{lllll}
+Datum     & Gruppe 1  & Gruppe 2  & Format         & Thema                              \\ \hline
+Fr, 10.04.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (1) Quarto, Zotero, Tidyverse      \\
+Fr, 17.04.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (2) Forschungsethik                \\
+Fr, 24.04.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (3) Wissenschaftliche Berichte     \\
+Mi, 29.04.2026 & 11-13 Uhr & 13-15 Uhr & Praxisseminar  &  Offene Übung (Quarto und Zotero)  \\
+Fr, 08.05.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (4) Offenheit und Transparenz      \\ \hline
+Fr, 15.05.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfache Lineare Regression        \\
+Mo, 18.05.2026 & 11-13 Uhr & 15-17 Uhr & Übung          & Korrelation                        \\
+Fr, 05.06.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einstichproben-T-Test              \\
+Mi, 10.06.2026 & 13-15 Uhr & 17-19 Uhr & Übung          & Zweistichproben-T-Test             \\
+Fr, 26.06.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfaktorielle Varianzanalyse      \\
+Fr, 26.06.2026 & 15-17 Uhr & 17-19 Uhr & Übung          & Zweifaktorielle Varianzanalyse     \\
+Fr, 03.07.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Multiple Regression                \\
+Fr, 10.07.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Kovarianzanalyse                   \\ \hline
+Fr, 24.07.2026 &           &           & Klausurtermin  &                                    \\
+\end{tabular}
+
+\vfill
+
+
+# Formalia
+\setstretch{1.4}
+
+Seminarbestandteile
+
+\small
+
+
+\begin{itemize} \justifying
+\item Seminare (Termine 1-3 und 5): Theoretische Einführung
+\item Praxisseminar (Termin 4): Offene Übung mit Hilfestellung der Lehrpersonen
+\item Übung (Termine 6-13): Anwendung der erlernten Konzepte in von Studierenden geleiteten Präsenzübungen (Gruppenarbeit) mit Hilfestellung der Lehrpersonen.
+\end{itemize}
+
+\normalsize
+
+Vor- und Nachbereitung
+
+\small
 
 \begin{itemize} \justifying 
-\item Zur erfolgreichen Teilnahme ist eine regelmäßige Vor- und Nachbereitung der Programmierübungen und Selbstkontrollfragen erforderlich (entsprechend dem \textcolor{linkblue}{\href{https://www.bekanntmachungen.ovgu.de/media/Modulhandbücher/Bachelor+_+Studiengänge/Psychologie/Modulhandbuch+B_Sc_+Psychologie+24_11_2021-p-17076.pdf}{Modulhandbuch}} mit durchschnittlich 6,5 Stunden Lernzeit pro Woche).
+\item Zur erfolgreichen Teilnahme ist eine regelmäßige Vor- und Nachbereitung der Übungsaufgaben und Selbstkontrollfragen erforderlich (entsprechend dem \textcolor{linkblue}{\href{https://www.bekanntmachungen.ovgu.de/media/Modulhandbücher/Bachelor+_+Studiengänge/Psychologie/Modulhandbuch+B_Sc_+Psychologie+24_11_2021-p-17076.pdf}{Modulhandbuch}} mit durchschnittlich 6,5 Stunden Lernzeit pro Woche).
 \item Die Computerplätze am URZ stehen außerhalb der Belegzeiten (siehe \textcolor{linkblue}{\href{https://lsf.ovgu.de/qislsf/rds?state=wplan&act=Raum&pool=Raum&show=plan&P.vx=mittel&raum.rgid=176}{G26.1-006}} oder \textcolor{linkblue}{\href{https://lsf.ovgu.de/qislsf/rds?state=wplan&act=Raum&pool=Raum&show=plan&P.vx=mittel&raum.rgid=177}{G26.1 007}}) zur freien Nutzung zur Verfügung. 
 \end{itemize}
 
-# Struktur in C2 - Analyse und Dokumentation
-\setstretch{1.3}
+# Formalia
+\setstretch{1.4}
 
-\textcolor{darkblue}{Gruppenarbeit}
+Gruppenarbeit
+
+\small
 
 \begin{itemize} \justifying
 \item Konzeption und Durchführung studierendengeleiteter Praxiseinheiten zu ausgewählten Themenschwerpunkten in Kleingruppen (3-4 Studierende).
@@ -105,41 +157,47 @@ Aufnahme läuft.
 \item Gruppenbildung und Themenverteilung erfolgt über Moodle.
 \item Pro Gruppe ist eine vollständige Datenanalyse mit \textcolor{linkblue}{\href{https://www.r-project.org/}{R}} durchzuführen 
 \item Pro Gruppe ist ein schriftlicher Bericht und eine Präsentation mit \textcolor{linkblue}{\href{https://quarto.org/}{Quarto}} zu erstellen
-\item Jede Gruppe stellt ihre Arbeit an entsprechendem Übungstermin vor und leitet eine Präsenzübung zu den jeweiligen Programmieraufgaben 
+\item Jede Gruppe stellt ihre Arbeit am entsprechenden Übungstermin vor und leitet eine Präsenzübung zu den jeweiligen Programmieraufgaben 
 \item Die praktische Umsetzung der Analysemethoden ist klausurrelevant
-
 \end{itemize}
 
-# Struktur in C2 - Analyse und Dokumentation
-\setstretch{1.6}
-\normalsize
-\textcolor{darkblue}{Schriftlicher Bericht}
+# Formalia
+\setstretch{1.3}
+
+Schriftlicher Bericht
+
 \small
 
-* Einführung, Methoden, Resultate, Schlussfolgerung 
-* Details auf den jeweiligen Übungsblättern 
-* Insgesamt maximal 2 Seiten Fließtext plus Abbildungen und Code
-* Gleichmäßig verteilte Dokumentationsarbeit der Gruppenmitglieder
+\begin{itemize} \justifying
+\item Einführung, Methoden, Resultate, Schlussfolgerung 
+\item Details auf den jeweiligen Übungsblättern 
+\item Insgesamt maximal 2 Seiten Fließtext plus Abbildungen und Code
+\item Gleichmäßig verteilte Dokumentationsarbeit der Gruppenmitglieder
+\end{itemize}
 
 \normalsize
-\textcolor{darkblue}{Präsentation}
-\small
+Präsentation
 
-* Einführung in das Forschungsthema und Vorstellung der Übungsaufgaben (5 min)
-* Wiederholung der relevanten ALM Theorie aus der ALM Vorlesung (10 min)
-* Freie Bearbeitungszeit der Aufgaben durch alle Seminarteilnehmer:innen (65 min)
-* Tutorielle Unterstützung durch Mitglieder der Präsentationsgruppe
-* Vorstellung des erarbeiteten R Codes, Resultate und Diskussion (10 min)
-* Gleichmäßig verteilte Präsentationszeit der Gruppenmitglieder
+\small
+\begin{itemize} \justifying
+\item Einführung in das Forschungsthema und Vorstellung der Übungsaufgaben (5 min)
+\item Wiederholung der relevanten ALM Theorie aus der ALM Vorlesung (10 min)
+\item Freie Bearbeitungszeit der Aufgaben durch alle Seminarteilnehmer:innen (65 min)
+\item Tutorielle Unterstützung durch Mitglieder der Präsentationsgruppe
+\item Vorstellung des erarbeiteten R Codes, Resultate und Diskussion (10 min)
+\item Gleichmäßig verteilte Präsentationszeit der Gruppenmitglieder
+\end{itemize}
+
+\vspace{1mm}
 
 \textcolor{darkblue}{Das Tutorium dient der Unterstützung bei der Vorbereitung von Bericht und Präsentation!}
 
-# Struktur in C2 - Analyse und Dokumentation
+# Formalia
 
-\vspace{1mm}
-\setstretch{1.2}
+\vspace{2mm}
+\setstretch{1.1}
 
-\textcolor{darkblue}{Abgabe des Leistungsnachweises (Bericht und Präsentation)}
+Abgabe des Leistungsnachweises (Bericht und Präsentation)
 
 \begin{itemize}\small \justifying
 \item Abgabetermin: Ein Tag vor der Präsentation
@@ -153,7 +211,7 @@ Aufnahme läuft.
    \end{itemize}
 \item Dateibenennung nach Schema: \\ "[Nummer]-[Thema]-Gruppe-[Gruppennummer]-[Dokumenttyp].[Dateityp]"
 \item Beispiele für Dateibenennung:
-  \begin{itemize} \tiny \setstretch{1.2}
+  \begin{itemize} \tiny \setstretch{1.1}
     \item "7-Multiple-Regression-Gruppe-1-Präsentation.qmd"
     \item "7-Multiple-Regression-Gruppe-1-Präsentation.pdf"
     \item "7-Multiple-Regression-Gruppe-1-Bericht.qmd"
@@ -162,52 +220,7 @@ Aufnahme läuft.
   \end{itemize}
 \end{itemize}
 
-# Organisatorisches
-\setstretch{1.5}
-\small
-
-\begin{itemize}
-\item Wöchentliches Seminar in 2 Gruppen
-\item Termine und Uhrzeiten auf nächster Folie (Bitte Ausweichtermine beachten!)  \\
-\item Raum: G22A - 011
-\item Tutorien (2 Gruppen, Mittwochs): Organisation über die \textcolor{linkblue}{\href{https://elearning.ovgu.de/course/view.php?id=20573}{Moodleseite des Tutoriums}}
-\item Kursmaterialien (Folien, Videos, Source Code) auf der \textcolor{linkblue}{\href{https://www.ipsy.ovgu.de/Institut/Abteilungen+des+Institutes/Methodenlehre+I+_+Experimentelle+und+Neurowissenschaftliche+Psychologie/Lehre/Sommersemester+2026/Analyse+und+Dokumentation.html}{Kurswebseite}}
-\item Code auf \textcolor{linkblue}{\href{https://github.com/belinda-fleischmann/analyse-und-doku-26}{Github}}
-\item Ankündigungen über die \textcolor{linkblue}{\href{https://elearning.ovgu.de/course/view.php?id=20741}{Moodleseite des Seminars}}
-\item Vorherige Iteration des Kurses: \textcolor{linkblue}{\href{https://www.ipsy.ovgu.de/Institut/Abteilungen+des+Institutes/Methodenlehre+I/Lehre/Sommersemester+2025/Analyse+und+Dokumentation.html}{Analyse und Dokumentation (SoSe 2025)}}
-\item Klausurtermin und Klausurort gemäß Prüfungsplan des \textcolor{linkblue}{\href{https://www.fnw.ovgu.de/Studium/Prüfungsamt/Prüfungspläne.html}{FNW Prüfungsamtes}}
-\item Klausurwiederholungstermin am Ende des Wintersemesters 2026/27
-\end{itemize}
-
-
-# Termine
-\setstretch{1.8}
-\vfill
-\center
-\footnotesize
-
-\begin{tabular}{llllll}
-   &           & Gruppe 1  & Gruppe 2  & Format         & Thema                                       \\ \hline
-1  & Fr, 10.04 & 11-13 Uhr & 13-15 Uhr & Seminar        & (1) Quarto, Zotero, Tidyverse               \\
-2  & Fr, 17.04 & 11-13 Uhr & 13-15 Uhr & Seminar        & (2) Ethik und Ethische Formalitäten         \\
-3  & Fr, 24.04 & 11-13 Uhr & 13-15 Uhr & Seminar        & (3) Wissenschaftliche Berichte              \\
-4  & Mi, 29.04 & 11-13 Uhr & 13-15 Uhr & Praxisseminar  &  Offene Übung (Quarto und Zotero)           \\
-5  & Fr, 08.05 & 11-13 Uhr & 13-15 Uhr & Seminar        & (4) Offenheit und Transparenz               \\ \hline
-6  & Fr, 15.05 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfache Lineare Regression                 \\
-7  & Mo, 18.05 & 11-13 Uhr & 15-17 Uhr & Übung          & Korrelation                                 \\
-8  & Fr, 05.06 & 11-13 Uhr & 13-15 Uhr & Übung          & Einstichproben-T-Test                       \\
-9  & Mi, 10.06 & 13-15 Uhr & 17-19 Uhr & Übung          & Zweistichproben-T-Test                      \\
-10 & Fr, 26.06 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfaktorielle Varianzanalyse               \\
-11 & Fr, 26.06 & 15-17 Uhr & 17-19 Uhr & Übung          & Zweifaktorielle Varianzanalyse              \\
-12 & Fr, 03.07 & 11-13 Uhr & 13-15 Uhr & Übung          & Multiple Regression                          \\
-13 & Fr, 10.07 & 11-13 Uhr & 13-15 Uhr & Übung          & Kovarianzanalyse                            \\ \hline
-   & Juli      &           &           & Klausurtermin  &                                             \\
-\end{tabular}
-
-\vfill
-
-
-#  
+#
 \vfill
 \Huge
 \center

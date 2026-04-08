@@ -1,0 +1,37 @@
+---
+title: "Quarto Demonstration"
+author: "Toni Demo"
+date: today
+format: pdf
+---
+
+# Überschrift zu Kapitel 1.
+
+Hier steht der Text für Kapitel 1. Darin kann auch eine Abbildung enthalten sein.
+
+![](../../Abbildungen/otto.png){width="10%"}
+
+## Überschrift zum Unterkapitel 1.1
+
+Text kann **fett**, _kursiv_ oder in `monospace` formatiert werden. Farben lassen sich mit `\textcolor{}` einbinden,
+und Auflistungen über `*` oder `-` erstellen:
+
+* \textcolor{blue}{blau}
+* \textcolor{green}{grün}
+- \textcolor{red}{rot}
+
+Mathematische Ausdrücke werden durch Dollarzeichen in LaTeX formatiert, z.B. die Verteilung einer Zufallsvariable $\upsilon \sim N(\mu, \sigma^2 I_n)$ mit $\mu := X\beta \in \mathbb{R}^n$.
+
+Code Chunks können mit `echo` und `eval` ausgeführt und angezeigt werden (`eval = TRUE, echo = TRUE`):
+
+```{r, eval = TRUE, echo = TRUE}
+x <- 1:100
+cat("Der Median der Variable beträgt:", median(x))
+```
+
+oder ausgeblendet und nicht ausgeführt werden (`eval = FALSE, echo = FALSE`):
+
+```{r, eval = FALSE, echo = FALSE}
+cat("Dieser Code wird weder angezeigt noch ausgeführt.")
+```
+

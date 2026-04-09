@@ -170,7 +170,7 @@ Schriftlicher Bericht
 
 \begin{itemize} \justifying
 \item Einführung, Methoden, Resultate, Schlussfolgerung 
-\item Details auf den jeweiligen Übungsblättern 
+\item Inhalte gemäß den unter ``Dokumentation'' angegebenen Anforderungen des jeweiligen Übungsblatts (nicht alle erarbeiteten Ergebnisse, sondern nur explizit gefragte Inhalte)
 \item Insgesamt maximal 2 Seiten Fließtext plus Abbildungen und Code
 \item Gleichmäßig verteilte Dokumentationsarbeit der Gruppenmitglieder
 \end{itemize}

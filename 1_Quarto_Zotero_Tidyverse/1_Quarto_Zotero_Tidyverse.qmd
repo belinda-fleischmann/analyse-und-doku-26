@@ -420,7 +420,7 @@ Zotero
 #| label: daten 1 einlesen
 #| warning: false
 
-D <- read.table("./Daten/Daten_1.csv", sep = ",", header = TRUE)    # Daten einlesen
+D <- read.csv("./Daten/Daten_1.csv")                        # Daten einlesen
 ```
 
 \setstretch{1.1}
@@ -439,7 +439,7 @@ knitr::kable(D, digits = 2)                                 # Markdowntabellenou
 
 Der Pipe operater `%>%` oder `|>` ermöglicht es, Funktionen in einer Reihe nacheinander auszuführen.
 
-`mutate()` erlaubt das Erzeugen neuer Spalten als Funktionen bestehender Spalten
+`mutate()` erlaubt das Erzeugen neuer Spalten als Funktionen bestehender Spalten.
 
 \vspace{2mm}
 
@@ -470,7 +470,7 @@ knitr::kable(D_processed, digits = 2, align = "ccc", caption = NULL)     # Markd
 
 \tiny
 \footnotesize
-`filter()` erlaubt es, Zeilen gemäß bestimmten Bedingungen auswählen
+`filter()` erlaubt es, Zeilen gemäß bestimmten Bedingungen auszuwählen.
 \vspace{2mm}
 
 
@@ -517,7 +517,7 @@ knitr::kable(D_selected, digits = 2, caption = NULL)     # Markdowntabellenoutpu
 library(dplyr)                                                      # Für Pipe (%>%), mutate()
 
 # Daten vorbereiten
-D <- read.table("./Daten/Daten_2.csv", sep = ",", header = TRUE)    # Daten einlesen
+D <- read.csv("./Daten/Daten_2.csv")                                # Daten einlesen
 n_pat <- nrow(D)                                                    # Anzahl Patientinnen
 D_processed <- D %>%                                                # PatientIn ID hinzufügen
   mutate(PatientIn = seq(n_pat))

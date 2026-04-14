@@ -1,0 +1,324 @@
+---
+title: "Zweifaktorielle Varianzanalyse"
+author: "Übungsaufgabe zu Analyse und Dokumentation SoSe 2026"
+bibliography: 6-Referenzen.bib
+lang: de
+format: 
+  pdf:
+    include-in-header:
+      text: |
+       \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
+---
+
+Grundlage dieser Übung ist die Studie von @rief2018. Ziel ist es, mithilfe einer zweifaktoriellen Varianzanalyse zu quantifizieren, inwieweit sich Depressionsform (chronisch und früh-autretend vs. andere Depressionsformen) und Therapieart (CBASP vs. CBT) differentiell auf die Änderung der Depressionssymptomatik von Therapiebeginn bis Therapiende auswirken. Zum Zwecke dieser Übung fokussieren wir auf die  *Pre-Post Beck Depression Inventory (BDI) Differenzwerte* als Ergebnismaß der Studie von @rief2018.
+
+## Datensatz {-}
+
+Der Datensatz `6-Zweifaktorielle-Varianzanalyse.csv` enthält als erste Spalte die Depressionsform, als zweite Spalte die Therapieart und als dritte Spalte simulierte Pre-Post BDI Differenzwerte (`dBDI`) für insgesamt $n = 160$ Patient:innen. @tbl-bdi zeigt exemplarisch die Daten von zwei Patient:innen jeder Studiengruppe. Der Einfachheit nehmen wir hier im Unterschied zu @rief2018 an, dass jede Studiengruppe aus $40$ Patient:innen besteht.
+
+```{r, echo = F, warning = F, eval = F}
+#| label: Datensimulation
+
+# Modellformulierung
+set.seed(5)                                                              # Ergebnisreproduzierbarkeit
+library(MASS)                                                            # Multivariate Normalverteilung
+I        <- 2                                                            # Anzahl Level Faktor A (Depressionsforms)
+J        <- 2                                                            # Anzahl Level Faktor B (Therapieart)
+n_ij     <- 40                                                           # Anzahl Daten pro Gruppe (balanciertes ANOVA Design)
+n        <- I*J*n_ij                                                     # Anzahl Datenpunkte
+p        <- 1 + (I-1)+(J-1)+(I*J-3)                                      # Anzahl Parameter
+D        <- matrix(c(1,0,0,0,                                            # Referenzgruppenregressor
+                    1,1,0,0,                                             # Haupteffekt Form Regressor 
+                    1,0,1,0,                                             # Haupteffekt Therapie Regressor
+                    1,1,1,1), nrow  = p, byrow = TRUE)                   # Interaktionseffekt Regressor
+C        <- matrix(rep(1,n_ij),nrow = n_ij)                              # Prototypischer Zellenvektor für balancierte Designs
+X        <- kronecker(D, C)                                              # Kroneckerprodukt für balancierte Designs
+I_n      <- diag(n)                                                      # n x n Einheitsmatrix
+beta     <- matrix(c(10,2,0,-2), nrow = p)                               # \beta = (\mu_0,\alpha_2,\beta_2,\gamma_22)
+sigsqr   <- 8                                                            # \sigma^2
+y        <- mvrnorm(1, X %*% beta, sigsqr*diag(n))                       # Datenrealisierung
+y        <- round(y)                                                     # diskrete BDI Werte
+y[y < 0] <- 0                                                            # natürliche BDI Werte
+D        <- data.frame(Form     = c(rep("Chr"  , n_ij*2),                # Chronic Form                                       
+                                    rep("Oth"  , n_ij*2)),               # Other Form  
+                     Treatment  = c(rep("CBA"  , n_ij),                  # CBASP                                     
+                                    rep("CBT"  , n_ij),                  # CBT 
+                                    rep("CBA"  , n_ij),                  # CBASP                                     
+                                    rep("CBT"  , n_ij)),                 # CBT
+                      dBDI      = y)                                     # BDI Differenzwerte
+fname    <- file.path("6-Zweifaktorielle-Varianzanalyse.csv")            # Dateiname
+write.csv(D, file = fname, row.names = FALSE)                            # Speicherung 
+```
+
+```{r echo = F, eval = T, warning = F}
+#| label: tbl-bdi
+#| tbl-cap : "Pre-Post BDI Differenzwerte Werte der Studiengruppen (Chr: Chronic, Oth: Other, CBA: CBASP)"
+library(knitr)                                                           # Für kable()
+fname       <- "6-Zweifaktorielle-Varianzanalyse.csv"                    # Dateiname
+D           <- read.csv(fname)                                           # Laden des Datensatzes
+n_ij        <- as.vector(table(D$Form, D$Treatment))[1]                  # Anzahl Daten pro Gruppe (balanciertes ANOVA Design)
+kable(D[c(1:2,                                                           # erste zwei Patient:innen Chronic/CBASP Bedingung
+         (1:2)+sum(n_ij*1),                                              # erste zwei Patient:innen Chronic/CBT   Bedingung
+         (1:2)+sum(n_ij*2),                                              # erste zwei Patient:innen Other/CASP    Bedingung
+         (1:2)+sum(n_ij*3)),], digits = 2, align = "c")                  # erste zwei Patient:innen Chronic/CBT   Bedingung
+``` 
+
+
+\newpage
+## Programmieraufgaben {-}
+
+\noindent 1. Bestimmen Sie für jede der vier Studiengruppen die Stichprobengröße und für die BDI Werte jeweils das Maximum, das Minimum, den Median, den Mittelwert, die Varianz und die Standardabweichung. Führen Sie weiterhin mithilfe der `lm()` und `anova()` R Funktion eine zweifaktorielle Varianzanalyse mit Interaktion durch. Sie sollten folgende Ergebnisse erhalten.
+
+\tiny
+```{r, echo = F}
+#| label: Deskriptivstatistik
+library(knitr)                                                          # Für kable()
+# Laden des Datensatzes
+fname     <- "6-Zweifaktorielle-Varianzanalyse.csv"                     # Dateiname
+D         <- read.csv(fname)                                            # Laden des Datensatzes
+
+# Deskriptivstatistiken
+FA        <- c("Chr", "Oth")                                            # Faktor A Level
+FB        <- c("CBA", "CBT")                                            # Faktor B Level
+fk        <- c("Chr-CBA", "Chr-CBT", "Oth-CBA", "Oth-CBT")              # Faktor Level Combinations
+nsb       <- length(FA)*length(FB)                                      # Anzahl Studienbedingungen
+S         <- data.frame(                                                # Dataframeerzeugung
+  n         = rep(NaN,nsb),                                             # Stichprobengrößen
+  Max       = rep(NaN,nsb),                                             # Maxima
+  Min       = rep(NaN,nsb),                                             # Minima
+  Median    = rep(NaN,nsb),                                             # Mediane
+  Mean      = rep(NaN,nsb),                                             # Mittelwerte
+  Var       = rep(NaN,nsb),                                             # Varianzen
+  Std       = rep(NaN,nsb),                                             # Standardabweichungen
+  row.names = fk                                                        # Studienbedingungen
+)
+
+idx       <- 1                                                          # linear index
+for(i in 1:length(FA)){                                                 # Iteration über Faktor A Level  
+  for(j in 1:length(FB)){                                               # Iteration über Faktor B Level  
+    data          <- D$dBDI[D$Form == FA[i] & D$Treatment == FB[j]]     # Daten
+    S$n[idx]      <- length(data)                                       # Stichprobengröße
+    S$Max[idx]    <- max(data)                                          # Maxima
+    S$Min[idx]    <- min(data)                                          # Minima
+    S$Median[idx] <- median(data)                                       # Mediane
+    S$Mean[idx]   <- mean(data)                                         # Mittelwerte
+    S$Var[idx]    <- var(data)                                          # Varianzen
+    S$Std[idx]    <- sd(data)                                           # Standardabweichungen
+    idx           <- idx+1}}                                            # linear Index update
+cat("Deskriptivstatistik")                                              # user information
+kable(S, digits = 1)                                                    # Visualisierung
+```
+
+
+```{r, echo = F}
+#| label: anova (aov)
+# Inferenzstatistik
+cat("Zweifaktorielle Varianzanalyse mit Interaktion")                          # user information
+glm         <- lm(dBDI ~ Form + Treatment + Form:Treatment, data = D)          # Modellformulierung und Modellschätzung
+knitr::kable(anova(glm), digits = 2)                                           # ANOVA Tabelllenausgabe
+```
+
+\normalsize
+\noindent 2. Visualisieren Sie die entsprechenden Gruppenmittelwerte als Linienplots mit Fehlerbalken und als Balkendiagramm mit Fehlerbalken. 
+Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
+
+```{r echo = F, eval = F}
+#| label: Visualisierung (low-level)
+
+# Laden des Datensatzes
+fname <- "6-Zweifaktorielle-Varianzanalyse.csv"                                # Dateiname
+D     <- read.table(file.path(fname), sep = ",", header = TRUE)                # Laden des Datensatzes
+
+# Reformatierung des Datensatzes
+Y <- data.frame(
+  ChrCBA  = D$dBDI[D$Form=="Chr" & D$Treatment=="CBA"],                        # dBDI Werte Chronic/CBASP 
+  ChrCBT  = D$dBDI[D$Form=="Chr" & D$Treatment=="CBT"],                        # dBDI Werte Chronic/CBT
+  OthCBA  = D$dBDI[D$Form=="Oth" & D$Treatment=="CBA"],                        # dBDI Werte Other/CBASP
+  OthCBT  = D$dBDI[D$Form=="Oth" & D$Treatment=="CBT"]                         # dBDI Werte Other/CBT
+)
+
+# Visualisierung
+pdf(
+  file        = file.path("6-Zweifaktorielle-Varianzanalyse-Abbildung.pdf"),
+  width       = 10,
+  height      = 5
+)
+par(
+  family      = "sans",
+  mfcol       = c(1,2),
+  pty         = "s",
+  bty         = "l",
+  lwd         = 1,
+  las         = 1,
+  mgp         = c(2,1,0),
+  xaxs        = "i",
+  yaxs        = "i",
+  font.main   = 1,
+  cex         = 1
+)
+
+# # Balkendiagramm mit Fehlerbalken
+groupmeans  <- colMeans(Y)
+groupstds   <- apply(Y,2,sd)
+x           <- barplot(
+  groupmeans,
+  col         = "gray90",
+  ylim        = c(0,18),
+  xlim        = c(0,5),
+  xlab        = "Group"
+)
+arrows(
+  x0          = x,
+  y0          = groupmeans - groupstds,
+  x1          = x,
+  y1          = groupmeans + groupstds,
+  code        = 3,
+  angle       = 90,
+  length      = 0.05
+)
+
+# Linienplot mit Fehlerbalken
+x           <- 1:2
+groupmeans  <- matrix(colMeans(Y), nrow = 2)
+groupstds   <- matrix(apply(Y, 2, sd), nrow = 2)
+cols        <- c("gray30", "gray70")
+lwds        <- c(3,1)
+matplot(
+  x,
+  groupmeans,
+  type        = "b",
+  pch         = 21,
+  xlim        = c(.5,2.5),
+  ylim        = c(2,18),
+  lty         = 1,
+  col         = cols,
+  lwd         = lwds,
+  xlab        = "Treatment",
+  ylab        = "",
+  xaxt        = "n"
+)
+for(i in 1:2){
+  arrows(
+    x0          = x,
+    y0          = groupmeans[,i] - groupstds[,i],
+    x1          = x,
+    y1          = groupmeans[,i] + groupstds[,i],
+    col         = cols[[i]],
+    lwd         = lwds[[i]],
+    code        = 3,
+    angle       = 90,
+    length      = 0.05
+  )
+}
+legend(
+  "bottomright",
+  c("Chr", "Oth"),
+  lty         = 1,
+  col         = c("gray30", "gray90"),
+  lwd         = lwds,
+  bty         = "n",
+  cex         = 1,
+  x.intersp  = .3,
+  seg.len     = 0.6
+)
+text(1,1, "CBA" , xpd = T, cex = 1.1)
+text(2,1, "CBT", xpd = T, cex = 1.1)
+dev.off()
+```
+
+![Gruppenspezifische Stichprobenmittel und Stichprobenstandardabweichungen (Chr: Chronic, Oth: Other, CBA: CBASP)](6-Zweifaktorielle-Varianzanalyse-Abbildung.pdf){#fig-abbildung fig-align="center" width=80%}  
+
+
+\noindent 3. Zeigen Sie, wie Sie die nach *Treatment* gruppierten Deskriptien Statistiken mithilfe einer \href{https://style.tidyverse.org/pipes.html#pipes}{tidyverse Pipe} und der Funktion `aov_car` des **R** Pakets `afex` durchführen können. Konsultieren Sie zum Verständnis der Pipe Funktion auch die Einführung zu Data transformation in \href{https://r4ds.hadley.nz/data-transform#sec-the-pipe}{R for Data Science}.
+
+```{r echo = F, eval = F}
+#| label: tidyverse style
+
+library(dplyr)                                                # Für Pipe (%>%), mutate(), filter()
+library(ggplot2)                                              # Für ggplot()
+library(afex)                                                 # Für aov_car()
+library(ggpubr)                                               # Für ggarrange()
+
+# Daten vorbereiten
+fname       <- "6-Zweifaktorielle-Varianzanalyse.csv"         # Dateiname
+D           <- read.csv(fname)                                # Laden des Datensatzes
+n_subs      <- nrow(D)
+D_processed <- D %>%
+  mutate(ID = seq(n_subs))                                    # Subject ID hinzufügen
+
+# Deskriptive Statstik
+summary_stats <- D_processed %>%
+  group_by(Treatment, Form) %>%                               # Nach Treatment und Form gruppieren
+  summarize(                                                  # Kreiert dataframe mit eine Zeile für jede Gruppe
+    n = n(),
+    Max = max(dBDI),
+    Min = min(dBDI),
+    Median = median(dBDI),
+    Mean = mean(dBDI),
+    Var = var(dBDI),
+    Std = sd(dBDI)
+  )
+print(summary_stats)
+
+# Zweifaktorielle ANOVA evaluieren
+anova_results <- D_processed %>%
+  aov_car(dBDI ~ Form * Treatment + Error(ID),
+          data = .)
+print(anova_results)                                          # Ergebnisse ausgeben
+
+# Visualisierung
+bar_plot <- ggplot(data = summary_stats, aes(x = paste(Form, Treatment), y = Mean)) +
+      geom_col(color = "gray") +
+      geom_errorbar(aes(ymin = Mean - Std, ymax = Mean + Std), 
+                    width = 0.2, color = "black") +
+      ylim(0, 18) +
+      labs(x = "Group", y = "Mean dBDI") +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+line_plot <- ggplot(
+  summary_stats,
+  aes(x = Treatment, y = Mean, group = Form, color = Form)) +
+  geom_line() +
+  geom_point(shape = 21, size = 3, fill = "white") +
+  geom_errorbar(aes(ymin = Mean - Std, ymax = Mean + Std), width = 0.1) +
+  ylim(0, 18) +
+  labs(x = "Treatment", y = "Mean dBDI") +
+  theme(legend.position = "bottom")
+
+gesamt_plot <- ggarrange(                                     # Plots in eine Grafik zusammenfügen
+  bar_plot, line_plot + rremove("y.text") + rremove("ylab"),
+  align = "hv",                                               # Grid aligned
+  ncol = 2, nrow = 1)
+
+ggsave(                                                       # Abbildung speichern
+  gesamt_plot,
+  filename = "6-Zweifaktorielle-Varianzanalyse-ggplot.pdf",
+  width    = 10,
+  height   = 5
+  )
+```
+
+\newpage
+## Dokumentation
+
+Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und orientieren Sie sich in der Darstellung Ihrer datenanalytischer Ergebnisse an den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6. 
+
+### Einleitung {-}
+
+Stellen Sie die Ausgangsfrage von @rief2018 dar und erläutern Sie dabei die zentralen Hypothesen der Studie und beschreiben Sie, wie diese im Studiendesign umgesetzt werden. Erläutern Sie kurz die Unterschiede zwischen den *Chronic* und *Other* Depressionsformen sowie zwischen den *CBASP* und *CBT* Therapieprinzipien. Nutzen Sie dafür die Beschreibung der Patient:innengruppe auf Seite 3 und der *Treatments* auf Seite 4 von @rief2018.
+
+### Methoden {-}
+
+Beschreiben Sie die Patient:innen und Therapiebedingungsgruppen. Erläutern Sie den Unterschied zwischen einem Haupteffekt und 
+einem Interaktionseffekt anhand der Fragestellung von @rief2018.
+
+### Resultate {-}
+
+Reportieren Sie die von Ihnen in Programmieraufgabe 1 bestimmten Deskriptivstatistiken sowie die Ergebnisse der zweifaktoriellen Varianzanalyse hinsichtlich der Haupteffekt- und Interaktionsparameter. Erläutern Sie das in der Abbildung aus Programmieraufgabe 2 beobachtete Datenmuster und diskutieren Sie, was der beobachtete Interaktionseffekt zwischen Depressionsform und Therapieart im Kontext der Fragestellung von @rief2018 inhaltlich bedeutet.
+
+### Schlußfolgerung
+
+Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
+
+## Referenzen 
+\footnotesize

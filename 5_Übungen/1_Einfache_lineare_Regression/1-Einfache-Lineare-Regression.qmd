@@ -10,99 +10,86 @@ format:
        \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
 ---
 
-Grundlage dieser Übung ist die Studie von @stiles1994. Ziel ist es, die Prinzipien
-der Ausgleichsgerade und der einfachen linearen Regression zu nutzen, um für 
-einzelne Patient:innen zu quantifizieren, inwieweit sich ihr Gesundheitszustand
-im Rahmen einer Psychotherapie verändert hat. Zum Zwecke dieser Übung fokussieren 
-wir dabei auf die Patient:innengruppe der Kognitiven Verhaltenstherapie Bedingung
-($n = 21$) und den *Symptom Checklist-90 (SCL-90)* Wert  als primäres Ergebnismaß
-(*primary outcome measure*) der Studie von @stiles1994.
+Grundlage dieser Übung ist die Studie von @stiles1994. Ziel ist es, die Prinzipien der Ausgleichsgerade und der einfachen linearen Regression zu nutzen, um für einzelne Patient:innen zu quantifizieren, inwieweit sich ihr Gesundheitszustand im Rahmen einer Psychotherapie verändert hat. Zum Zwecke dieser Übung fokussieren wir dabei auf die Patient:innengruppe der Kognitiven Verhaltenstherapie Bedingung ($n = 21$) und den *Symptom Checklist-90 (SCL-90)* Wert als primäres Ergebnismaß (*primary outcome measure*) der Studie von @stiles1994.
 
 ## Datensatz {-}
 
-Der Datensatz `1-Einfache-lineare-Regression.csv` enthält als Spalten simulierte 
-SCL-90 Scores zu den Erhebungszeitpunkten *Intake* (Beginn der Therapie), *Midtherapy* 
-(Mitte der Therapie), *Termination* (Ende der Therapie) von $n = 21$ Patient:innen 
-als Zeilen. @tbl-scl90 zeigt exemplarisch die Daten der ersten zehn Patient:innen.
+Der Datensatz `1-Einfache-lineare-Regression.csv` enthält als Spalten simulierte SCL-90 Scores zu den Erhebungszeitpunkten *Intake* (Beginn der Therapie), *Midtherapy* (Mitte der Therapie), *Termination* (Ende der Therapie) von $n = 21$ Patient:innen als Zeilen. @tbl-scl90 zeigt exemplarisch die Daten der ersten zehn Patient:innen.
 
 ```{r, eval = F, echo = F, warning = F}
 #| label: Datensimulation
 # Datensatzsimulation
-library(MASS)                                                                  # Normalverteilungen
-set.seed(1)                                                                    # Seed setzen für Ergebnisreproduzierbarkeit
-np          <- 21                                                              # Anzahl Patient:innen
-n           <- 3                                                               # Anzahl Datenpunkte pro Patient:in
-p           <- 2                                                               # Anzahl Regressionskoeffizienten
-beta_b      <- matrix(c(122.9, -24.7), nrow = 2)                               # Between-Participants Betaparameter
-Sigma_b     <- matrix(c(20.9, 0, 0, 120), nrow = 2)                            # Between-Participants Kovarianzmatrix
-x_w         <- seq(1, n, len = n)                                              # Within-Participants Kontrollvariable
-X_w         <- matrix(c(rep(1, n), x_w), ncol = 2)                             # Within-Participants Designmatrix
-sigsqr_w    <- 1                                                               # Within-Participants Varianzparameter
-Sigma_w     <- sigsqr_w*diag(n)                                                # Within-Participants Kovarianzmatrixparameter
-Y           <- matrix(rep(NaN, np * n), nrow = np)                             # Gesamtdatensatzinitialisierung
+library(MASS)                                                  # Normalverteilungen
+set.seed(1)                                                    # Seed setzen für Ergebnisreproduzierbarkeit
+np          <- 21                                              # Anzahl Patient:innen
+n           <- 3                                               # Anzahl Datenpunkte pro Patient:in
+p           <- 2                                               # Anzahl Regressionskoeffizienten
+beta_b      <- matrix(c(122.9, -24.7), nrow = 2)               # Between-Participants Betaparameter
+Sigma_b     <- matrix(c(20.9, 0, 0, 120), nrow = 2)            # Between-Participants Kovarianzmatrix
+x_w         <- seq(1, n, len = n)                              # Within-Participants Kontrollvariable
+X_w         <- matrix(c(rep(1, n), x_w), ncol = 2)             # Within-Participants Designmatrix
+sigsqr_w    <- 1                                               # Within-Participants Varianzparameter
+Sigma_w     <- sigsqr_w*diag(n)                                # Within-Participants Kovarianzmatrixparameter
+Y           <- matrix(rep(NaN, np * n), nrow = np)             # Gesamtdatensatzinitialisierung
 
-for(i in 1:np){                                                                # Iteration über Patient:innen
-  beta      <- as.matrix(                                                      # Patient:in-spezifische Regressionsparameter
+for(i in 1:np){                                                # Iteration über Patient:innen
+  beta      <- as.matrix(                                      # Patient:in-spezifische Regressionsparameter
     mvrnorm(n = 1, mu = beta_b, Sigma = Sigma_b))
-  mu        <- X_w %*% beta                                                    # Patient:in-spezifische Regressionserwartungswertparameter
-  Y[i,]     <- t(as.matrix(mvrnorm(1, mu, Sigma_w)))                           # Patient:in-spezifische Datenwerte
+  mu        <- X_w %*% beta                                    # Patient:in-spezifische Regressionserwartungswertparameter
+  Y[i,]     <- t(as.matrix(mvrnorm(1, mu, Sigma_w)))           # Patient:in-spezifische Datenwerte
 }
 
-D           <- data.frame(Intake      = Y[,1],                                 # SCL-90 Scores zu Therapiebeginn
-                          Midtherapy  = Y[,2],                                 # SCL-90 Scores zu Therapiemitte
-                          Termination = Y[,3])                                 # SCL-90 Scores zu Therapieende
-fname       <- file.path("1-Einfache-Lineare-Regression.csv")                  # Dateiname
-write.csv(D, file = fname, row.names = FALSE)                                  # Speichern
+D           <- data.frame(Intake      = Y[,1],                 # SCL-90 Scores zu Therapiebeginn
+                          Midtherapy  = Y[,2],                 # SCL-90 Scores zu Therapiemitte
+                          Termination = Y[,3])                 # SCL-90 Scores zu Therapieende
+fname       <- file.path("1-Einfache-Lineare-Regression.csv")  # Dateiname
+write.csv(D, file = fname, row.names = FALSE)                  # Speichern
 ```
 ```{r, eval = T, echo = F, warning = F}
 #| label: tbl-scl90
 #| tbl-cap : "SCL-90 Scores"
-library(knitr)                                                                 # Für kable()
-fname       <- "1-Einfache-Lineare-Regression.csv"                             # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
-kable(head(D, n = 10L), digits = 2, align = "c")                               # Markdowntabellenoutput für head(D)
+library(knitr)                                                 # Für kable()
+fname       <- "1-Einfache-Lineare-Regression.csv"             # Dateiname
+D           <- read.csv(fname)                                 # Laden des Datensatzes
+kable(head(D, n = 10L), digits = 2, align = "c")               # Markdowntabellenoutput für head(D)
 ```
 
 \newpage
 ## Programmieraufgaben {-}
 
-\noindent 1. Bestimmen Sie für jede:n Patient:in die Ausgleichsgeradenparameter basierend
-auf den drei patient:innenspezifischen SCL-90 Scores *Intake*, *Midtherapy*, *Termination*.
-Nutzen Sie dazu beispielsweise eine `for` Schleife. Berechnen Sie das Stichprobenmittel und die Stichprobenstandardabweichung
-der Steigungsparameter. Sie sollten folgende Ergebnisse erhalten:
-
+\noindent 1. Bestimmen Sie für jede:n Patient:in die Ausgleichsgeradenparameter basierend auf den drei patient:innenspezifischen SCL-90 Scores *Intake*, *Midtherapy*, *Termination*. Nutzen Sie dazu beispielsweise eine `for` Schleife. Berechnen Sie das Stichprobenmittel und die Stichprobenstandardabweichung der Steigungsparameter. Sie sollten folgende Ergebnisse erhalten:
 
 ```{r, eval = T, echo = F}
 #| label: Ausgleichsgeradenparameter (Theorem)
 # Datenanalyse
-# fname     <- "5_Übungen/1_Einfache_lineare_Regression/1-Einfache-Lineare-Regression.csv"  # Dateiname
-fname       <- "1-Einfache-Lineare-Regression.csv"                             # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
-np          <- nrow(D)                                                         # Anzahl Patient:innen
-n           <- ncol(D)                                                         # Datenpunkte pro Patient:in
-x           <- 1:n                                                             # Regressionsprädiktorwerte
-X           <- matrix(c(rep(1, n), x), nrow = n)                               # Designmatrix 
-beta_hat_algr  <- matrix(rep(NaN, np * 2), nrow = 2)                           # Patient:innensteigungsparameter Lösung über lineare Algebra
-beta_hat_theorem <- matrix(rep(NaN, np * 2), nrow = 2)                         # Patient:innensteigungsparameter Lösung mit Theoremsformeln
-beta_hat_lm <- matrix(rep(NaN, np * 2), nrow = 2)                              # Patient:innensteigungsparameter Lösung mit der funktion lm()
+fname            <- "1-Einfache-Lineare-Regression.csv"             # Dateiname
+D                <- read.csv(fname)                                 # Laden des Datensatzes
+np               <- nrow(D)                                         # Anzahl Patient:innen
+n                <- ncol(D)                                         # Datenpunkte pro Patient:in
+x                <- 1:n                                             # Regressionsprädiktorwerte
+X                <- matrix(c(rep(1, n), x), nrow = n)               # Designmatrix 
+beta_hat_algr    <- matrix(rep(NaN, np * 2), nrow = 2)              # Patient:innensteigungsparam. Lösung über lin. Algebra
+beta_hat_theorem <- matrix(rep(NaN, np * 2), nrow = 2)              # Patient:innensteigungsparam. Lösung mit Theoremsformeln
+beta_hat_lm      <- matrix(rep(NaN, np * 2), nrow = 2)              # Patient:innensteigungsparam. Lösung mit lm()
 
-sp          <- rep(NaN, np)                                                    # Steigungsparameter
-for(i in 1:np){                                                                # Iteration über Patient:innen
-  # Evaluation über Gleichsungssystem lösen
-  beta_hat_algr[, i]  <- solve(t(X) %*% X) %*% t(X) %*% t(D[i, ])              # Ausgleichsgeradenparameterevaluation
-  # Evaluation mithilfe des Theorems für Ausgleichsgeradenparameter
-  y_pat <- as.numeric(unlist(D[i, ]))                                          # Pat.spezifische y-Werte
-  x_bar <- mean(x)                                                             # Stichprobenmittel der x_i-Werte
-  y_bar <- mean(y_pat)                                                         # Stichprobenmittel der y_i-Werte
-  s2x   <- var(x)                                                              # Stichprobenvarianz der x_i-Werte
-  cxy   <- cov(x, y_pat)                                                       # Stichprobenkovarianz der (x_i,y_i)-Werte
-  beta_hat_theorem[2, i] <- cxy/s2x                                            # \hat{\beta}_1, Steigungsparameter
-  beta_hat_theorem[1, i] <- y_bar - beta_hat_theorem[2, i] * x_bar             # \hat{\beta}_0, Offset Parameter
+for(i in 1:np){                                                     # Iteration über Patient:innen
+  # Evaluation über lin. Algebra (Gleichsungssystem lösen)
+  beta_hat_algr[, i]  <- solve(                                     # Ausgleichsgeradenparameterevaluation
+    t(X) %*% X) %*% t(X) %*% t(D[i, ])
+
+  # Evaluation über Theorem für Ausgleichsgeradenparameter
+  y_pat <- as.numeric(unlist(D[i, ]))                               # Pat.spezifische y-Werte
+  x_bar <- mean(x)                                                  # Stichprobenmittel der x_i-Werte
+  y_bar <- mean(y_pat)                                              # Stichprobenmittel der y_i-Werte
+  s2x   <- var(x)                                                   # Stichprobenvarianz der x_i-Werte
+  cxy   <- cov(x, y_pat)                                            # Stichprobenkovarianz der (x_i,y_i)-Werte
+  beta_hat_theorem[2, i] <- cxy/s2x                                 # \hat{\beta}_1, Steigungsparameter
+  beta_hat_theorem[1, i] <- y_bar - beta_hat_theorem[2, i] * x_bar  # \hat{\beta}_0, Offset Parameter
+
   # Evalutaion mit der Funktion lm()
   fit <- lm(y_pat ~ x)
   beta_hat_lm[2, i] <- fit$coefficients[2]
   beta_hat_lm[1, i] <- fit$coefficients[1]
-  # browser()
 }
 
 cat("       Mittelwert der Steigungsparameter         :", mean(beta_hat_algr[2,]),
@@ -114,12 +101,12 @@ cat("       Mittelwert der Steigungsparameter         :", mean(beta_hat_algr[2,]
     )
 ```
 
-\noindent 2. Visualisieren Sie die Daten und Ausgleichsgeraden der ersten vier Patient:innen 
-in einer Abbildung. Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
+\noindent 2. Visualisieren Sie die Daten und Ausgleichsgeraden der ersten vier Patient:innen in einer Abbildung. Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
 ```{r echo = F, eval = F}
 #| label: Visualisierung (low-level)
-library(latex2exp)
+library(latex2exp)  # Für Textformatierung mit TeX()
+
 # Datenanalysevisualisierung
 pdf(
   file        = file.path("1-Einfache-Lineare-Regression-Abbildung.pdf"),
@@ -181,7 +168,6 @@ for(i in 1:4){
 dev.off()
 ```
 
-
 ![Patient:innen-spezifische Ausgleichsgeraden (Int: Intake, Mid: Midtherapy, Ter: Termination)](1-Einfache-Lineare-Regression-Abbildung.pdf){#fig-abbildung fig-align="center" width=70%} 
 
 \noindent 3. Zeigen Sie, dass Sie bei der Bestimmung der Ausgleichsgeradenparameter "manuell", also unter Verwendung der in der \href{https://www.ipsy.ovgu.de/Institut/Abteilungen+des+Institutes/Methodenlehre+I+_+Experimentelle+und+Neurowissenschaftliche+Psychologie/Lehre/Sommersemester+2026/Allgemeines+Lineares+Modell.html}{Vorlesung ALM (1)} im Theorem zu Ausgleichsgeradenparameter gelernten Formeln und mithilfe der Funktion `stats::lm()` auf die gleichen Ergebnisse kommen.
@@ -193,15 +179,14 @@ library(tidyr)                                                                 #
 library(ggplot2)                                                               # Für ggplot()
 
 # Daten vorbereiten
-# file_path <- "5_Übungen/1_Einfache_lineare_Regression/1-Einfache-Lineare-Regression.csv"
 file_path <- "1-Einfache-Lineare-Regression.csv"
-D <- read.table(file_path, sep = ",", header = TRUE)
+D <- read.csv(file_path)
 n_pat <- nrow(D)                                                               # Anzahl Patientinnen
 D_processed <- D %>%                                                           # PatientIn ID hinzufügen
   mutate(PatientIn = seq(n_pat))    
 therapieverlauf_mapping <- c(                                                  # Zuordnung Therapieverlauf strings zuz numeric values
   "Intake" = 1, "Midtherapy" = 2, "Termination" = 3
-  )
+)
 D_long_format <- gather(D_processed, Therapieverlauf, SCL90, -PatientIn)       # Daten in long format bringen
 D_for_plotting <- D_long_format %>%                                            # Daten der ersten 4 PatientInnen auswählen
   filter(PatientIn %in% 1:4) %>%
@@ -212,7 +197,6 @@ custom_labeller <- labeller(                                                   #
   PatientIn = function(x) paste0("PatientIn ", x)
 )
 
-print(D_for_plotting)
 ggplot(
   data = D_for_plotting,                                                       # Daten
   mapping = aes(x = Therapieverlauf, y = SCL90)) +                             # Daten-Axen-mapping
@@ -233,32 +217,19 @@ dev.off()
 \newpage
 ## Dokumentation
 
-Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und 
-orientieren Sie sich in der Darstellung Ihrer datenanalytischen Ergebnisse an
-den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6. 
+Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und orientieren Sie sich in der Darstellung Ihrer datenanalytischen Ergebnisse an den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6.
 
 ### Einleitung {-}
 
-Stellen Sie die Ausgangsfrage von  @stiles1994 dar und erläutern Sie die 
-*Medikamentenmetapher (drug metaphor)*. Erläutern Sie weiterhin das Konzept der 
-*Decay Curves*.
+Stellen Sie die Ausgangsfrage von  @stiles1994 dar und erläutern Sie die *Medikamentenmetapher (drug metaphor)*. Erläutern Sie weiterhin das Konzept der *Decay Curves*.
 
 ### Methoden {-}
 
-Erläutern Sie kurz die Idee der *Kognitiven Verhaltenstherapie (Cognitive Behavioral Therapy)*
-bei Depression sowie die Erfassung psychischer Beschwerden mithilfe des 
-*Symptom Checklist-90 (SCL-90)*. Beschreiben 
-Sie die Patient:innen- und Therapeut:innengruppen. Beschreiben Sie, zu welchen 
-Zeitpunkten über den Therapieverlauf die SCL-90 Werte der Patient:innen
-erhoben wurden. Erläutern Sie Sinn und Zweck der Steigungsparameterbestimmung.
-Dokumentieren Sie ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung
-von Programmieraufgabe 1.
+Erläutern Sie kurz die Idee der *Kognitiven Verhaltenstherapie (Cognitive Behavioral Therapy)* bei Depression sowie die Erfassung psychischer Beschwerden mithilfe des *Symptom Checklist-90 (SCL-90)*. Beschreiben Sie die Patient:innen- und Therapeut:innengruppen. Beschreiben Sie, zu welchen Zeitpunkten über den Therapieverlauf die SCL-90 Werte der Patient:innen erhoben wurden. Erläutern Sie Sinn und Zweck der Steigungsparameterbestimmung. Dokumentieren Sie ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
-Geben Sie den Mittelwert und die Standardabweichung der Steigungsparameter an
-und erläutern Sie ihre Bedeutung. Diskutieren Sie Ihre Resultate am Beispiel
-der Abbildungen der Ausgleichsgeraden der ersten vier Patient:innen aus Programmieraufgabe 2.
+Geben Sie den Mittelwert und die Standardabweichung der Steigungsparameter an und erläutern Sie ihre Bedeutung. Diskutieren Sie Ihre Resultate am Beispiel der Abbildungen der Ausgleichsgeraden der ersten vier Patient:innen aus Programmieraufgabe 2.
 
 ### Schlussfolgerung {-}
 

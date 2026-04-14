@@ -10,57 +10,45 @@ format:
        \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
 ---
 
-Grundlage dieser Übung ist die Studie von @stiles1994. Ziel ist es, mithilfe
-von Korrelationen zu quantifizieren, inwieweit die Variabilität der Stärke 
-verbaler Psychotherapiekomponenten die Variabilität des Erfolges individueller
-Psychotherapien bei Depression erklärt. Zum Zwecke dieser Übung fokussieren
-wir dabei auf *Question* Intents seitens der Therapeut:innen und betrachten 
-im Kontext der *Kognitiven Verhaltenstherapie* patientenspezifische 
-*Symptom Checklist-90 (SCL-90) Change Indices* als Ergebnismaß.
+Grundlage dieser Übung ist die Studie von @stiles1994. Ziel ist es, mithilfe von Korrelationen zu quantifizieren, inwieweit die Variabilität der Stärke verbaler Psychotherapiekomponenten die Variabilität des Erfolges individueller Psychotherapien bei Depression erklärt. Zum Zwecke dieser Übung fokussieren wir dabei auf *Question* Intents seitens der Therapeut:innen und betrachten im Kontext der *Kognitiven Verhaltenstherapie* patientenspezifische *Symptom Checklist-90 (SCL-90) Change Indices* als Ergebnismaß.
 
 ## Datensatz {-}
 
-Der Datensatz `2-Korrelation.csv` enthält als Spalten simulierte *Question* 
-Intent und *SCL-90 Change Index* Werte von $n = 21$ Patient:innen als Zeilen.
-@tbl-vrm zeigt exemplarisch die Daten der ersten zehn Patient:innen.
+Der Datensatz `2-Korrelation.csv` enthält als Spalten simulierte *Question* Intent und *SCL-90 Change Index* Werte von $n = 21$ Patient:innen als Zeilen. @tbl-vrm zeigt exemplarisch die Daten der ersten zehn Patient:innen.
 
-```{r echo = F, eval = F}
+```{r, echo = F, eval = F}
 #| label: Datensim
-library(MASS)                                                                  # Multivariate Normalverteilung
-set.seed(3)                                                                    # Seed setzen für Ergebnisreproduzierbarkeit
-n           <- 21                                                              # Anzahl Patient:innen
-mu          <- rep(c(10.1, -24.7))                                             # Erwartungswertparameter \mu
-Sigma       <- matrix(c(4, -1.1, -1.1, 120), nrow = 2)                         # Kovarianzmatrixparameter \Sigma
-Y           <- mvrnorm(n, mu, Sigma)                                           # Realisierungen von QI, SCL90Change
-D           <- data.frame(Question  = Y[,1],                                   # Question intend scores
-                         SCL90Change          = Y[,2])                         # SCL90 scores
-fname       <- file.path("2-Korrelation.csv")                                  # Dateiname
-write.csv(D, file = fname, row.names = FALSE)                                  # Speichern
+library(MASS)                                                              # Multivariate Normalverteilung
+set.seed(3)                                                                # Seed setzen für Ergebnisreproduzierbarkeit
+n           <- 21                                                          # Anzahl Patient:innen
+mu          <- rep(c(10.1, -24.7))                                         # Erwartungswertparameter \mu
+Sigma       <- matrix(c(4, -1.1, -1.1, 120), nrow = 2)                     # Kovarianzmatrixparameter \Sigma
+Y           <- mvrnorm(n, mu, Sigma)                                       # Realisierungen von QI, SCL90Change
+D           <- data.frame(Question  = Y[,1],                               # Question intend scores
+                         SCL90Change          = Y[,2])                     # SCL90 scores
+fname       <- file.path("2-Korrelation.csv")                              # Dateiname
+write.csv(D, file = fname, row.names = FALSE)                              # Speichern
 ```
 
-```{r echo = F, warning = F}
+```{r, echo = F, warning = F}
 #| label: tbl-vrm
 #| tbl-cap : "Verbal Response Mode und SCL-90 Change Index Werte"
-library(knitr)                                                                 # Für kable()
-fname       <- "2-Korrelation.csv"                                             # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
-kable(head(D, n = 10L), digits = 2, align = "c")                               # Markdowntabellenoutput für head(D)
+library(knitr)                                                             # Für kable()
+fname       <- "2-Korrelation.csv"                                         # Dateiname
+D           <- read.csv(fname)                                             # Laden des Datensatzes
+kable(head(D, n = 10L), digits = 2, align = "c")                           # Markdowntabellenoutput für head(D)
 ```
 
 \newpage
 ## Programmieraufgaben {-}
-\noindent 1. Bestimmen Sie die Stichprobenkorrelation der *Question* Intent und 
-*SCL-90 Change Index* Werte. Bestimmen Sie mithilfe von Ausgleichsgeraden 
-weiterhin die Explained Sum of Squares $\mbox{SQE}$, die Total Sum of Squares 
-$\mbox{SQT}$ sowie das Bestimmheitsmaß $\mbox{R}^2$.
-Sie sollten folgende Ergebnisse erhalten:
+\noindent 1. Bestimmen Sie die Stichprobenkorrelation der *Question* Intent und *SCL-90 Change Index* Werte. Bestimmen Sie mithilfe von Ausgleichsgeraden weiterhin die Explained Sum of Squares $\mbox{SQE}$, die Total Sum of Squares $\mbox{SQT}$ sowie das Bestimmheitsmaß $\mbox{R}^2$. Sie sollten folgende Ergebnisse erhalten:
 
 \small
-```{r echo = F}
+```{r, echo = F}
 #| label: Korrelation (Theorem)
 # Datenanalyse
 fname    <- "2-Korrelation.csv"                                                # Dateiname
-D        <- read.table(file.path(fname), sep = ",", header = TRUE)             # Laden des Datensatzes
+D        <- read.csv(fname)                                                    # Laden des Datensatzes
 n        <- nrow(D)                                                            # Anzahl Patient:innen
 r        <- cor(D[,1], D[,2])                                                  # Korrelation
 x        <- D[,1]                                                              # Regressionsprädiktorwerte
@@ -68,7 +56,7 @@ X        <- matrix(c(rep(1,n),x), nrow = n)                                    #
 y        <- as.matrix(D[,2])                                                   # Datensatz
 beta_hat <- solve(t(X) %*% X) %*% t(X) %*% y                                   # Ausgleichsgeradenparameter
 y_bar    <- mean(y)                                                            # Stichprobenmittel
-y_hat    <- X %*% beta_hat                                                     # erklärte Werte
+y_hat    <- X %*% beta_hat                                                     # Erklärte Werte
 SQT      <- t(y-y_bar) %*% (y - y_bar)                                         # Total Sum of Squares
 SQE      <- t(y_hat - y_bar) %*% (y_hat - y_bar)                               # Explained Sum of Squares
 Rsquare  <- SQE/SQT                                                            # Bestimmheitsmaß
@@ -81,12 +69,10 @@ cat("     Korrelation von Question Intent und SCL-90 Change Index             : 
     "\n     Bestimmheitsmaß bei Question Intent und SCL-90 Change Index         : ", round(Rsquare,  digits = 3))
 ```
 
+\normalsize
+\noindent 2. Visualisieren Sie die Daten, die Ausgleichsgerade und die Korrelationsanalysergebnisse in einer Abbildung. Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
-\noindent 2. Visualisieren Sie die Daten, die Ausgleichsgerade und die 
-Korrelationsanalysergebnisse in einer Abbildung. Die Abbildung sollte in 
-etwa aussehen wie @fig-abbildung.
-
-```{r echo = F, eval = F}
+```{r, echo = F, eval = F}
 #| label: Visualisierung (low-level)
 # Datenanalysevisualisierung
 pdf(
@@ -145,100 +131,82 @@ dev.off()
 
 \noindent 3. Zeigen Sie, wie Sie die Abbildung aus Aufgabe 2 mit dem **R** Paket `ggplot2` generieren können. Hierfür können Sie die Funktionen `ggplot2::geom_point()` und `ggplot2::geom_smooth()` verwenden. Konsultieren Sie dazu auch die Einführung zu Visualisierungen in \href{https://r4ds.hadley.nz/data-visualize}{R for Data Science}.
 
-```{r echo = F, eval = F}
+```{r, echo = F, eval = F}
 #| label: tidyverse style
-library(dplyr)                                                                 # Für Pipe (%>%), mutate(), filter()
-library(corrr)                                                                 # Für correlate()
-library(ggplot2)                                                               # Für ggplot()
-library(latex2exp)                                                             # Für TeX
+library(dplyr)                                                       # Für Pipe (%>%), mutate(), filter()
+library(corrr)                                                       # Für correlate()
+library(ggplot2)                                                     # Für ggplot()
+library(latex2exp)                                                   # Für TeX
 
-# Daten vorbereiten
-# fname    <- "5_Übungen/2_Korrelation/2-Korrelation.csv"                      # Dateiname
-fname    <- "2-Korrelation.csv"                                                # Dateiname
-D        <- read.table(fname, sep = ",", header = TRUE)                        # Laden des Datensatzes
+fname    <- "2-Korrelation.csv"                                      # Dateiname
+D        <- read.csv(fname)                                          # Laden des Datensatzes
 
 # Korrelation evaluieren
 cor_ <- D %>%
-  select(Question, SCL90Change) %>%                                            # Spalten für Korrelation wählen (Bei 21 x 2 dataframe überflüssig)
+  select(Question, SCL90Change) %>%                                  # Spalten für Korrelation wählen (Bei 21 x 2 dataframe überflüssig)
   correlate()
-cor_                                                                           # Korrelationsmatrix ausgeben
-r <- round(cor_$SCL90Change[1], digits = 3)                                    # Stichprobenkorrelation extrahieren
-cat(                                                                           # Ausgabe
+cor_                                                                 # Korrelationsmatrix ausgeben
+r <- round(cor_$SCL90Change[1], digits = 3)                          # Stichprobenkorrelation extrahieren
+cat(                                                                 # Ausgabe
   "Korrelation von Question Intent und SCL-90 Change Index: ",
   r
-  )
+)
+
+# Quadratsummen und Bestimmtheitsmaß bestimmen
+n        <- nrow(D)                                                  # Anzahl Patient:innen
+x        <- D[, 1]                                                   # Regressionsprädiktorwerte
+X        <- matrix(c(rep(1, n), x), nrow = n)                        # Designmatrix 
+y        <- as.matrix(D[, 2])                                        # Datensatz
+beta_hat <- solve(t(X) %*% X) %*% t(X) %*% y                         # Ausgleichsgeradenparameter
+y_bar    <- mean(y)                                                  # Stichprobenmittel
+y_hat    <- X %*% beta_hat                                           # erklärte Werte
+SQT      <- t(y-y_bar) %*% (y - y_bar)                               # Total Sum of Squares
+SQE      <- t(y_hat - y_bar) %*% (y_hat - y_bar)                     # Explained Sum of Squares
+Rsquare  <- SQE / SQT                                                # Bestimmheitsmaß
 
 # Visualisierung Ausgleichsgerade
-# Quadratsummen und Bestimmtheitsmaß bestimmen
-n        <- nrow(D)                                                            # Anzahl Patient:innen
-x        <- D[, 1]                                                             # Regressionsprädiktorwerte
-X        <- matrix(c(rep(1, n), x), nrow = n)                                  # Designmatrix 
-y        <- as.matrix(D[, 2])                                                  # Datensatz
-beta_hat <- solve(t(X) %*% X) %*% t(X) %*% y                                   # Ausgleichsgeradenparameter
-y_bar    <- mean(y)                                                            # Stichprobenmittel
-y_hat    <- X %*% beta_hat                                                     # erklärte Werte
-SQT      <- t(y-y_bar) %*% (y - y_bar)                                         # Total Sum of Squares
-SQE      <- t(y_hat - y_bar) %*% (y_hat - y_bar)                               # Explained Sum of Squares
-Rsquare  <- SQE / SQT                                                          # Bestimmheitsmaß
-
 ggplot(
-  data = D,                                                                    # Daten
-  mapping = aes(x = Question, y = SCL90Change)) +                              # Daten-Axen-mapping
-  coord_cartesian(xlim = c(6, 14), ylim = c(-55, 5)) +                        # Achsen-limits anpassen
-  labs(x = "Question Intent", y = "SCL-90 Change") +                           # Achsenlabel anpassen
-  geom_point() +                                                               # Datenpunkte zeichnen
-  geom_smooth(method = "lm", color = "gray", se = F) +                         # Ausgleichsgerade zeichnen
-  ggtitle(
+  data = D,                                                          # Daten
+  mapping = aes(x = Question, y = SCL90Change)) +                    # Daten-Axen-mapping
+  coord_cartesian(xlim = c(6, 14), ylim = c(-55, 5)) +               # Achsen-limits anpassen
+  labs(x = "Question Intent", y = "SCL-90 Change") +                 # Achsenlabel anpassen
+  geom_point() +                                                     # Datenpunkte zeichnen
+  geom_smooth(method = "lm", color = "gray", se = F) +               # Ausgleichsgerade zeichnen
+  ggtitle(                                                           # Titel
     TeX(
       sprintf(
-        "r = %.2f, SQE = %.2f, SQT = %.2f, $R^2=$ %.2f", r, SQE, SQT, Rsquare  # Titel
-      )
+        "r = %.2f, SQE = %.2f, SQT = %.2f, $R^2=$ %.2f",
+        r, SQE, SQT, Rsquare 
+     )
     )
   )
 
-ggsave(                                                                        # Abbildung speichern
+ggsave(                                                              # Abbildung speichern
   filename = "2-Korrelation-ggplot.pdf",
   height = 5, width = 5
 )
 ```
 
-
 \newpage
 ## Dokumentation
 
-Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und 
-orientieren Sie sich in der Darstellung Ihrer datenanalytischer Ergebnisse an
-den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6. 
+Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und orientieren Sie sich in der Darstellung Ihrer datenanalytischer Ergebnisse an den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6. 
 
 ### Einleitung {-}
 
-Stellen Sie die Ausgangsfrage von  @stiles1994 dar und erläutern Sie die 
-*Medikamentenmetapher (drug metaphor)*. Erläutern Sie weiterhin Sinn und Zweck 
-des *Verbal Response Mode (VRM)* Kodiersystems und erläutern Sie die Begriffe der verbalen 
-*Psychotherapiekomponenten* und des *Question* Intents. Konsultieren 
-Sie dazu auch @stiles1986.
+Stellen Sie die Ausgangsfrage von  @stiles1994 dar und erläutern Sie die *Medikamentenmetapher (drug metaphor)*. Erläutern Sie weiterhin Sinn und Zweck des *Verbal Response Mode (VRM)* Kodiersystems und erläutern Sie die Begriffe der verbalen *Psychotherapiekomponenten* und des *Question* Intents. Konsultieren Sie dazu auch @stiles1986.
 
 ### Methoden {-}
 
-Erläutern Sie kurz die Ideen der *Kognitiven Verhaltenstherapie*
-und der *Psychodynamischen Therapie* bei Depression sowie die Erfassung psychischer Beschwerden mithilfe des *Symptom Checklist-90 (SCL-90)*.
-Beschreiben Sie die Patient:innen- 
-und Therapeut:innengruppen. Erläutern Sie Sinn und Zweck der Korrelationsanalyse.
-Dokumentieren Sie Ihre Datenanalye in Form kommentierten **R** Codes zur Lösung
-von Programmieraufgabe 1.
+Erläutern Sie kurz die Ideen der *Kognitiven Verhaltenstherapie* und der *Psychodynamischen Therapie* bei Depression sowie die Erfassung psychischer Beschwerden mithilfe des *Symptom Checklist-90 (SCL-90)*. Beschreiben Sie die Patient:innen- und Therapeut:innengruppen. Erläutern Sie Sinn und Zweck der Korrelationsanalyse. Dokumentieren Sie Ihre Datenanalye in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
-Berichten Sie die nach Programmieraufgabe 1 zu bestimmenden Statistiken und skizzieren
-sie jeweils kurz ihre jeweilige intuitive Bedeutung. Erläutern Sie die im Rahmen
-von Programmieraufgabe 2 erstellte Abbildung. Ordnen Sie die erhaltene Korrelation
-anhand ihrer Stärke ein.
+Berichten Sie die nach Programmieraufgabe 1 zu bestimmenden Statistiken und skizzieren sie jeweils kurz ihre jeweilige intuitive Bedeutung. Erläutern Sie die im Rahmen von Programmieraufgabe 2 erstellte Abbildung. Ordnen Sie die erhaltene Korrelation anhand ihrer Stärke ein.
 
 ### Schlußfolgerung {-}
 
-Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen und
-erläutern Sie drei mögliche Gründe für den beobachteten schwachen Zusammenhang von
-*Question* Intent und *SCL-90 Change Index*.
+Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen und erläutern Sie drei mögliche Gründe für den beobachteten schwachen Zusammenhang von *Question* Intent und *SCL-90 Change Index*.
 
 ## Referenzen
 \footnotesize

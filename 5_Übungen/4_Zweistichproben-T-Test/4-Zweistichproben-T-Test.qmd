@@ -121,10 +121,7 @@ cat("                 Betaparameterschätzer           : ", beta_hat,
 ```
 \normalsize
 
-\noindent 2. Visualisieren Sie die entsprechenden Gruppenmittelwerte als 
-Linienplots mit Fehlerbalken analog zu Figure 2 in @wagner2014. Visualisieren außerdem
-die Post-Pre-Differenz Werte als gruppenspezifische *Violinplots* mithilfe des
-*R* Pakets `vioplot`.  Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
+\noindent 2. Visualisieren Sie die entsprechenden Gruppenmittelwerte als Linienplots mit Fehlerbalken analog zu Figure 2 in @wagner2014. Visualisieren außerdem die Post-Pre-Differenz Werte als gruppenspezifische *Violinplots* mithilfe des *R* Pakets `vioplot`. Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
 ```{r echo = F, eval = F}
 #| label: Visualisierung (low-level)
@@ -133,7 +130,7 @@ die Post-Pre-Differenz Werte als gruppenspezifische *Violinplots* mithilfe des
 library(latex2exp)
 library(vioplot)
 fname       <- "4-Zweistichproben-T-Test.csv"
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)
+D           <- read.csv(fname)
 D$Diff      = -(D$Post - D$Pre)
 
 pdf(
@@ -248,9 +245,9 @@ dev.off()
 #| label: tidyverse style
 library(dplyr)                                                                 # Für Pipe (%>%), mutate(), filter()
 library(ggplot2)                                                               # Für ggplot()
+
 # Daten vorbereiten
-# fname     <- "5_Übungen/4_Zweistichproben-T-Test/4-Zweistichproben-T-Test.csv" # Dateiname
-fname     <- "4-Zweistichproben-T-Test.csv"                                    # Dateiname
+fname       <- "4-Zweistichproben-T-Test.csv"                                  # Dateiname
 D           <- read.table(fname, sep = ",", header = TRUE)                     # Laden des Datensatzes
 D_processed <- D %>%
   mutate(Diff = as.numeric(Post - Pre)) %>%                                    # Neue Variable berechnen
@@ -297,21 +294,13 @@ Stellen Sie die Ausgangsfrage von  @wagner2014 dar und erläutern Sie kurz mögl
 
 ### Methoden {-}
 
-Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen.
-Erläutern Sie die Designmatrixform des Zweistichproben-T-Test-Modells 
-und vergleichen Sie diese mit der Designmatrixform des 
-Einstichproben-T-Test-Modells aus Übungsblatt 3. Erläutern Sie 
-insbesondere, wie sich der Kontrastgewichtsvektor 
-$c = (1, -1)^T$ auf die Teststatistik auswirkt.
-Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung
-von Programmieraufgabe 1.
+Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie die Designmatrixform des Zweistichproben-T-Test-Modells 
+und vergleichen Sie diese mit der Designmatrixform des Einstichproben-T-Test-Modells aus Übungsblatt 3. Erläutern Sie 
+insbesondere, wie sich der Kontrastgewichtsvektor $c = (1, -1)^T$ auf die Teststatistik auswirkt. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
-Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1
-und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren
-Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power.
-Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
+Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1 und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power. Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
 
 ### Schlußfolgerung {-}
 

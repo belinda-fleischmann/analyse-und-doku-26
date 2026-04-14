@@ -10,13 +10,7 @@ format:
        \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
 ---
 
-Grundlage dieser Übung ist die Studie von @wagner2014. Ziel ist es, mithilfe eines
-Einstichproben-T-Tests zu quantifizieren, inwieweit sich die Depressionssymptomatik
-einer Gruppe von Patient:innen zwischen Beginn und Ende einer Psychotherapie verändert 
-hat. Diese Anwendung eines Einstichproben-T-Tests wird häufig auch auch als 
-*Zweistichproben-T-Test bei abhängigen Stichproben* bezeichnet. Zum Zwecke dieser Übung 
-fokussieren wir auf die *Face-to-Face Studiengruppe* ($n = 30$) und den 
-*Beck Depression Inventory (BDI)* Wert als Ergebnismaß der Studie von @wagner2014.
+Grundlage dieser Übung ist die Studie von @wagner2014. Ziel ist es, mithilfe eines Einstichproben-T-Tests zu quantifizieren, inwieweit sich die Depressionssymptomatik einer Gruppe von Patient:innen zwischen Beginn und Ende einer Psychotherapie verändert hat. Diese Anwendung eines Einstichproben-T-Tests wird häufig auch auch als *Zweistichproben-T-Test bei abhängigen Stichproben* bezeichnet. Zum Zwecke dieser Übung fokussieren wir auf die *Face-to-Face Studiengruppe* ($n = 30$) und den *Beck Depression Inventory (BDI)* Wert als Ergebnismaß der Studie von @wagner2014.
 
 ### Datensatz {-}
 
@@ -26,57 +20,45 @@ Werte zu den Erhebungszeitpunkten *Pre* und *Post* der psychotherapeutischen
 
 ```{r, echo = F, eval = F}
 #| label: Datensim
-library(MASS)                                                                  # Multivariate Normalverteilung
-set.seed(10)                                                                   # Ergebnisreproduzierbarkeit
-n           <- 30                                                              # Anzahl Patient:innen
-k           <- 2                                                               # Anzahl Gruppen (Pre/Post)
-betas       <- c(23,12)                                                        # Erwartungswertparameter \mu_{pre}/\mu_{post}
-sigsqrs     <- c(8 ** 2, 9 ** 2)                                                   # Varianzparameter \sigma^2_{pre}/\sigma^2_{post}
-Y           <- matrix(rep(NaN,n*2), nrow = n)                                  # Datensatzarrayinitialisierung
-X           <- matrix(rep(1,n), nrow = n)                                      # Designmatrix 
-for(i in 1:k){                                                                 # Pre-Post Iteration
-    Y[,i] <- mvrnorm(1, X %*% betas[i], sigsqrs[i]*diag(n))                    # Datenrealisierung
+library(MASS)                                                  # Multivariate Normalverteilung
+set.seed(10)                                                   # Ergebnisreproduzierbarkeit
+n           <- 30                                              # Anzahl Patient:innen
+k           <- 2                                               # Anzahl Gruppen (Pre/Post)
+betas       <- c(23,12)                                        # Erwartungswertparameter \mu_{pre}/\mu_{post}
+sigsqrs     <- c(8 ** 2, 9 ** 2)                               # Varianzparameter \sigma^2_{pre}/\sigma^2_{post}
+Y           <- matrix(rep(NaN,n*2), nrow = n)                  # Datensatzarrayinitialisierung
+X           <- matrix(rep(1,n), nrow = n)                      # Designmatrix 
+for(i in 1:k){                                                 # Pre-Post Iteration
+    Y[,i] <- mvrnorm(1, X %*% betas[i], sigsqrs[i]*diag(n))    # Datenrealisierung
 }
-Y           <- round(Y)                                                        # diskrete BDI Werte
-Y[Y < 0]    <- 0                                                               # natürliche BDI Werte
-D           <- data.frame(Pre  = Y[,1],                                        # Pre BDI Werte
-                         Post = Y[,2])                                         # Post BDI Werte 
-fname       <- file.path("3-Einstichproben-T-Test.csv")                        # Dateiname
-write.csv(D, file = fname, row.names = FALSE)                                  # Speichern 
+Y           <- round(Y)                                        # diskrete BDI Werte
+Y[Y < 0]    <- 0                                               # natürliche BDI Werte
+D           <- data.frame(Pre  = Y[,1],                        # Pre BDI Werte
+                         Post = Y[,2])                         # Post BDI Werte 
+fname       <- file.path("3-Einstichproben-T-Test.csv")        # Dateiname
+write.csv(D, file = fname, row.names = FALSE)                  # Speichern 
 ```
 
 ```{r echo = F, warning = F, eval = T}
 #| label: tbl-bdi
 #| tbl-cap : "Pre- und Post-Intervention BDI Werte"
-library(knitr)                                                                 # Für kable()
-fname       <- "3-Einstichproben-T-Test.csv"                                   # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
-kable(head(D, n = 12L), digits = 2, align = "c")                               # Markdowntabellenoutput für head(D)
+library(knitr)                                                 # Für kable()
+fname       <- "3-Einstichproben-T-Test.csv"                   # Dateiname
+D           <- read.csv(fname)                                 # Laden des Datensatzes
+kable(head(D, n = 12L), digits = 2, align = "c")               # Markdowntabellenoutput für head(D)
 ``` 
 
 \newpage
 ## Programmieraufgaben {-}
 
-\noindent 1. Bestimmen Sie die Differenzen der Pre und Post BDI Werte. Führen Sie dann
-basierend auf diesen Differenzwerten einen zweiseitigen Einstichproben-T-Test 
-mit Nullhypothesenparameter $\mu_0 = 0$ durch. Bestimmen Sie dabei insbesondere die Beta- und 
-Varianzparameterschätzer des Einstichproben-T-Testmodells, den Wert der
-Einstichproben-T-Teststatistik, den korrespondierenden p-Wert und als alternative 
-Effektgröße Cohens' $d$. Geben Sie weiterhin das 95\%-Konfidenzintervall für den 
-Erwartungswert der Pre-Post-Differenzen an. Bestimmen Sie schließlich unter 
-der Annahme, dass die Werte der Erwartungswert- und Varianzparameterschätzer 
-den wahren, aber unbekannten, Parametern gleichen, die Wahrscheinlichkeit dafür, 
-dass der Einstichproben-T-Test bei einer Stichprobengröße von $n = 30$ und einem
-kritischen Wert, der einem Signifikanzlevel von $\alpha_0 := 0.05$ entspricht,
-den Wert 1 annimmt. Diese geschätzte Wahrscheinlichkeit wird manchmal als 
-*Post-hoc power* bezeichnet. Sie sollten folgende Ergebnisse erhalten:
+\noindent 1. Bestimmen Sie die Differenzen der Pre und Post BDI Werte. Führen Sie dann basierend auf diesen Differenzwerten einen zweiseitigen Einstichproben-T-Test mit Nullhypothesenparameter $\mu_0 = 0$ durch. Bestimmen Sie dabei insbesondere die Beta- und Varianzparameterschätzer des Einstichproben-T-Testmodells, den Wert der Einstichproben-T-Teststatistik, den korrespondierenden p-Wert und als alternative Effektgröße Cohens' $d$. Geben Sie weiterhin das 95\%-Konfidenzintervall für den Erwartungswert der Pre-Post-Differenzen an. Bestimmen Sie schließlich unter der Annahme, dass die Werte der Erwartungswert- und Varianzparameterschätzer den wahren, aber unbekannten, Parametern gleichen, die Wahrscheinlichkeit dafür, dass der Einstichproben-T-Test bei einer Stichprobengröße von $n = 30$ und einem kritischen Wert, der einem Signifikanzlevel von $\alpha_0 := 0.05$ entspricht, den Wert 1 annimmt. Diese geschätzte Wahrscheinlichkeit wird manchmal als *Post-hoc power* bezeichnet. Sie sollten folgende Ergebnisse erhalten:
 
 \footnotesize
 ```{r echo = F, warning = F, eval = T}
 #| label: t-Test (Theorem)
 # Datenanalyse
 fname       <- "3-Einstichproben-T-Test.csv"                                   # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
+D           <- read.csv(fname)                                                 # Laden des Datensatzes
 y           <- D$Post - D$Pre                                                  # Post-Pre Differenzwerte
 n           <- length(y)                                                       # Anzahl Datenpunkte
 p           <- 1                                                               # Anzahl Betaparameter
@@ -109,12 +91,9 @@ cat("                 Betaparameterschätzer           : ", round(beta_hat, digi
     "\n                 Cohen's d                       : ", round(d,digits = 3),
     "\n                 Post-hoc power                  : ", round(p_delta_hat,digits = 3))
 ```
-\normalsize
 
-\noindent 2. Visualisieren Sie die Pre und Post-Interventions BDI Werte aller Patient:innen
-als Liniendiagramm. Visualisieren weiterhin die Post-Pre Differenz BDI Werte
-als *Violinplot* mithilfe des **R** Pakets `vioplot`. Die Abbildung sollte in 
-etwa aussehen wie @fig-abbildung.
+\normalsize
+\noindent 2. Visualisieren Sie die Pre und Post-Interventions BDI Werte aller Patient:innen als Liniendiagramm. Visualisieren weiterhin die Post-Pre Differenz BDI Werte als *Violinplot* mithilfe des **R** Pakets `vioplot`. Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
 ```{r echo = F, eval = F, warning = F}
 #| label: Visualisierung (low-level)
@@ -200,7 +179,6 @@ library(dplyr)                                                                 #
 library(ggplot2)                                                               # Für ggplot()
 
 # Daten vorbereiten
-# fname       <- "5_Übungen/3_Einstichproben-T-Test/3-Einstichproben-T-Test.csv"  # Dateiname
 fname       <- "3-Einstichproben-T-Test.csv"                                   # Dateiname
 D           <- read.table(fname, sep = ",", header = TRUE)                     # Laden des Datensatzes
 D_processed <- D %>%
@@ -233,31 +211,19 @@ ggsave(                                                                        #
 \newpage
 ## Dokumentation
 
-Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und 
-orientieren Sie sich in der Darstellung Ihrer datenanalytischer Ergebnisse an
-den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6. 
+Bitte beachten Sie bei der Erstellung Ihre Dokumentation folgende Vorgaben und orientieren Sie sich in der Darstellung Ihrer datenanalytischer Ergebnisse an den Empfehlungen des [APA Publication Manuals 7th Edition](https://apastyle.apa.org/products/publication-manual-7th-edition), insbesondere Kapitel 6.
 
 ### Einleitung {-}
 
-Stellen Sie die Ausgangsfrage von  @wagner2014 dar und erläutern Sie kurz die
-Therapieprinzipien der *Online* und der *Face-to-Face* Studiengruppen.
+Stellen Sie die Ausgangsfrage von  @wagner2014 dar und erläutern Sie kurz die Therapieprinzipien der *Online* und der *Face-to-Face* Studiengruppen.
 
 ### Methoden {-}
 
-Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie 
-kurz die Bestimmung des Depressionszustandes mithilfe des *Beck Depression 
-Inventory (BDI)*; konsultieren Sie dazu auch @beck1961. Erläutern Sie kurz das 
-Einstichproben-T-Test-Modell und seine Designmatrixform. Konsultieren Sie dazu die 
-entsprechenden Abschnitte in der ALM Vorlesung.
-Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung
-von Programmieraufgabe 1.
+Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie kurz die Bestimmung des Depressionszustandes mithilfe des *Beck Depression Inventory (BDI)*; konsultieren Sie dazu auch @beck1961. Erläutern Sie kurz das Einstichproben-T-Test-Modell und seine Designmatrixform. Konsultieren Sie dazu die entsprechenden Abschnitte in der ALM Vorlesung. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
-Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1
-und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren
-Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power.
-Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
+Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1 und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power. Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
 
 ### Schlußfolgerung {-}
 

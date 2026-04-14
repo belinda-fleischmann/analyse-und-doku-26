@@ -23,22 +23,22 @@ Belinda Fleischmann
 \center
 \footnotesize
 
-\begin{tabular}{llllll}
-   &           & Gruppe 1  & Gruppe 2  & Format         & Thema                                       \\ \hline
-1  & Fr, 10.04 & 11-13 Uhr & 13-15 Uhr & Seminar        & (1) Quarto, Zotero, Tidyverse               \\
-2  & Fr, 17.04 & 11-13 Uhr & 13-15 Uhr & Seminar        & (2) Forschungsethik                         \\
-\textbf{3}  & \textbf{Fr, 24.04} & \textbf{11-13 Uhr} & \textbf{13-15 Uhr} & \textbf{Seminar}        & \textbf{(3) Wissenschaftliche Berichte}              \\
-4  & Mi, 29.04 & 11-13 Uhr & 13-15 Uhr & Praxisseminar  &  Offene Übung (Quarto und Zotero)           \\
-5  & Fr, 08.05 & 11-13 Uhr & 13-15 Uhr & Seminar        & (4) Offenheit und Transparenz               \\ \hline
-6  & Fr, 15.05 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfache Lineare Regression                 \\
-7  & Mo, 18.05 & 11-13 Uhr & 15-17 Uhr & Übung          & Korrelation                                 \\
-8  & Fr, 05.06 & 11-13 Uhr & 13-15 Uhr & Übung          & Einstichproben-T-Test                       \\
-9  & Mi, 10.06 & 13-15 Uhr & 17-19 Uhr & Übung          & Zweistichproben-T-Test                      \\
-10 & Fr, 26.06 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfaktorielle Varianzanalyse               \\
-11 & Fr, 26.06 & 15-17 Uhr & 17-19 Uhr & Übung          & Zweifaktorielle Varianzanalyse              \\
-12 & Fr, 03.07 & 11-13 Uhr & 13-15 Uhr & Übung          & Multiple Regression                          \\
-13 & Fr, 10.07 & 11-13 Uhr & 13-15 Uhr & Übung          & Kovarianzanalyse                            \\ \hline
-   & Juli      &           &           & Klausurtermin  &                                             \\
+\begin{tabular}{lllll}
+Datum     & Gruppe 1  & Gruppe 2  & Format              & Thema                              \\ \hline
+Fr, 10.04.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (1) Quarto, Zotero, Tidyverse      \\
+Fr, 17.04.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (2) Forschungsethik                \\
+\textbf{Fr, 24.04.2026} & \textbf{11-13 Uhr} & \textbf{13-15 Uhr} & \textbf{Seminar} & \textbf{(3) Wissenschaftliche Berichte} \\
+Mi, 29.04.2026 & 11-13 Uhr & 13-15 Uhr & Praxisseminar  &  Offene Übung (Quarto und Zotero)  \\
+Fr, 08.05.2026 & 11-13 Uhr & 13-15 Uhr & Seminar        & (4) Offenheit und Transparenz      \\ \hline
+Fr, 15.05.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfache Lineare Regression        \\
+Mo, 18.05.2026 & 11-13 Uhr & 15-17 Uhr & Übung          & Korrelation                        \\
+Fr, 05.06.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einstichproben-T-Test              \\
+Mi, 10.06.2026 & 13-15 Uhr & 17-19 Uhr & Übung          & Zweistichproben-T-Test             \\
+Fr, 26.06.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Einfaktorielle Varianzanalyse      \\
+Fr, 26.06.2026 & 15-17 Uhr & 17-19 Uhr & Übung          & Zweifaktorielle Varianzanalyse     \\
+Fr, 03.07.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Multiple Regression                \\
+Fr, 10.07.2026 & 11-13 Uhr & 13-15 Uhr & Übung          & Kovarianzanalyse                   \\ \hline
+Fr, 24.07.2026 &           &           & Klausurtermin  &                                    \\
 \end{tabular}
 
 \vfill

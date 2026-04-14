@@ -207,7 +207,7 @@ Erläutern Sie kurz die Begriffe der partiellen Korrelation und der multiplen Re
 
 Reportieren Sie die von Ihnen in Programmieraufgabe 1 bestimmten Statistiken. Diskutieren Sie dabei die wechselseitigen Abhängigkeiten der drei betrachteten Variablen und gehen Sie dabei insbesondere auf die Korrelation der `AGE` und `INIT` Variablen und ihre jeweiligen partiellen Korrelationen mit der `dPOMS` Variable ein. Erläutern Sie die Lage und Orientierung der Regressionsebene vor dem Hintergrund der in Programmieraufgabe 1 bestimmten Werte des ALM Betaparameterschätzers.
 
-### Schlußfolgerung
+### Schlussfolgerung
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
 

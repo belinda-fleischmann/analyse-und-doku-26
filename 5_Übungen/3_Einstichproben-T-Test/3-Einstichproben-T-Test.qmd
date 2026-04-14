@@ -10,7 +10,7 @@ format:
        \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
 ---
 
-Grundlage dieser Übung ist die Studie von @wagner2014. Ziel ist es, mithilfe eines Einstichproben-T-Tests zu quantifizieren, inwieweit sich die Depressionssymptomatik einer Gruppe von Patient:innen zwischen Beginn und Ende einer Psychotherapie verändert hat. Diese Anwendung eines Einstichproben-T-Tests wird häufig auch auch als *Zweistichproben-T-Test bei abhängigen Stichproben* bezeichnet. Zum Zwecke dieser Übung fokussieren wir auf die *Face-to-Face Studiengruppe* ($n = 30$) und den *Beck Depression Inventory (BDI)* Wert als Ergebnismaß der Studie von @wagner2014.
+Grundlage dieser Übung ist die Studie von @wagner2014. Ziel ist es, mithilfe eines Einstichproben-T-Tests zu quantifizieren, inwieweit sich die Depressionssymptomatik einer Gruppe von Patient:innen zwischen Beginn und Ende einer Psychotherapie verändert hat. Diese Anwendung eines Einstichproben-T-Tests wird häufig auch als *Zweistichproben-T-Test bei abhängigen Stichproben* bezeichnet. Zum Zwecke dieser Übung fokussieren wir auf die *Face-to-Face Studiengruppe* ($n = 30$) und den *Beck Depression Inventory (BDI)* Wert als Ergebnismaß der Studie von @wagner2014.
 
 ### Datensatz {-}
 
@@ -97,7 +97,7 @@ cat("                 Betaparameterschätzer           : ", round(beta_hat, digi
 
 ```{r echo = F, eval = F, warning = F}
 #| label: Visualisierung (low-level)
-# install.packages("vioplot")
+
 library(latex2exp)
 library(vioplot)
 pdf(
@@ -180,7 +180,7 @@ library(ggplot2)                                                               #
 
 # Daten vorbereiten
 fname       <- "3-Einstichproben-T-Test.csv"                                   # Dateiname
-D           <- read.table(fname, sep = ",", header = TRUE)                     # Laden des Datensatzes
+D           <- read.csv(fname)                                                 # Laden des Datensatzes
 D_processed <- D %>%
   mutate(Diff = as.numeric(Post - Pre))                                        # Neue Variable berechnen
 
@@ -219,13 +219,13 @@ Stellen Sie die Ausgangsfrage von  @wagner2014 dar und erläutern Sie kurz die T
 
 ### Methoden {-}
 
-Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie kurz die Bestimmung des Depressionszustandes mithilfe des *Beck Depression Inventory (BDI)*; konsultieren Sie dazu auch @beck1961. Erläutern Sie kurz das Einstichproben-T-Test-Modell und seine Designmatrixform. Konsultieren Sie dazu die entsprechenden Abschnitte in der ALM Vorlesung. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
+Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie kurz die Bestimmung des Depressionszustandes mithilfe des *Beck Depression Inventory (BDI)*; konsultieren Sie dazu auch @beck1961. Erläutern Sie kurz verbal das Einstichproben-T-Test-Modell und seine Designmatrixform. Konsultieren Sie dazu die entsprechenden Abschnitte in der ALM Vorlesung. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
 Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1 und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power. Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
 
-### Schlußfolgerung {-}
+### Schlussfolgerung {-}
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
 

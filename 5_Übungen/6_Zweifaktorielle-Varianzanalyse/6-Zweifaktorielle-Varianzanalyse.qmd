@@ -10,7 +10,7 @@ format:
        \usepackage[font=small,format=plain,labelfont=bf, labelsep=period,justification=justified,singlelinecheck=false]{caption}
 ---
 
-Grundlage dieser Übung ist die Studie von @rief2018. Ziel ist es, mithilfe einer zweifaktoriellen Varianzanalyse zu quantifizieren, inwieweit sich Depressionsform (chronisch und früh-autretend vs. andere Depressionsformen) und Therapieart (CBASP vs. CBT) differentiell auf die Änderung der Depressionssymptomatik von Therapiebeginn bis Therapiende auswirken. Zum Zwecke dieser Übung fokussieren wir auf die  *Pre-Post Beck Depression Inventory (BDI) Differenzwerte* als Ergebnismaß der Studie von @rief2018.
+Grundlage dieser Übung ist die Studie von @rief2018. Ziel ist es, mithilfe einer zweifaktoriellen Varianzanalyse zu quantifizieren, inwieweit sich Depressionsform (chronisch und früh-auftretend vs. andere Depressionsformen) und Therapieart (CBASP vs. CBT) differentiell auf die Änderung der Depressionssymptomatik von Therapiebeginn bis Therapiende auswirken. Zum Zwecke dieser Übung fokussieren wir auf die  *Pre-Post Beck Depression Inventory (BDI) Differenzwerte* als Ergebnismaß der Studie von @rief2018.
 
 ## Datensatz {-}
 
@@ -127,7 +127,7 @@ Die Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
 # Laden des Datensatzes
 fname <- "6-Zweifaktorielle-Varianzanalyse.csv"                                # Dateiname
-D     <- read.table(file.path(fname), sep = ",", header = TRUE)                # Laden des Datensatzes
+D     <- read.csv(fname)                                                       # Laden des Datensatzes
 
 # Reformatierung des Datensatzes
 Y <- data.frame(
@@ -316,7 +316,7 @@ einem Interaktionseffekt anhand der Fragestellung von @rief2018.
 
 Reportieren Sie die von Ihnen in Programmieraufgabe 1 bestimmten Deskriptivstatistiken sowie die Ergebnisse der zweifaktoriellen Varianzanalyse hinsichtlich der Haupteffekt- und Interaktionsparameter. Erläutern Sie das in der Abbildung aus Programmieraufgabe 2 beobachtete Datenmuster und diskutieren Sie, was der beobachtete Interaktionseffekt zwischen Depressionsform und Therapieart im Kontext der Fragestellung von @rief2018 inhaltlich bedeutet.
 
-### Schlußfolgerung
+### Schlussfolgerung
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
 

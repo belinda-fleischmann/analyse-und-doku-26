@@ -56,7 +56,7 @@ write.csv(D, file = fname, row.names = FALSE)                                  #
 #| tbl-cap : "Exemplarische Pre- und Post-Intervention BDI Werte der Studiengruppen."
 library(knitr)                                                                 # Für kable()
 fname       <- "4-Zweistichproben-T-Test.csv"                                  # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
+D           <- read.csv(fname)                                                 # Laden des Datensatzes
 kable(head(D[c(1:5,31:35),], n = 10L), digits = 2, align = "c")                # Markdowntabellenoutput für head(D)
 ``` 
 
@@ -82,7 +82,7 @@ Sie sollten folgende Ergebnisse erhalten:
 #| label: t-Test (Theorem)
 # Datenanalyse
 fname       <- "4-Zweistichproben-T-Test.csv"                                  # Dateiname
-D           <- read.table(file.path(fname), sep = ",", header = TRUE)          # Laden des Datensatzes
+D           <- read.csv(fname)                                                 # Laden des Datensatzes
 n_1         <- 32                                                              # Anzahl Patient:innen Online Gruppe
 n_2         <- 30                                                              # Anzahl Patient:innen Face-to-Face Gruppe
 n           <- n_1 + n_2                                                       # Gesamtzahl Datenpunkte pro Messpunkt
@@ -111,13 +111,13 @@ k_alpha_0   <- qt(1-alpha_0/2, n-2)                                            #
 p_delta_hat <- 1-pt(k_alpha_0, n-2, t)+pt(-k_alpha_0, n-2, t)                  # "Post-hoc power"
 
 # Ausgabe
-cat("                 Betaparameterschätzer           : ", beta_hat,
-    "\n                 95%-Konfidenzintervall beta_1   : ", kappa[1,],
-    "\n                 95%-Konfidenzintervall beta_2   : ", kappa[2,],
-    "\n                 Varianzparameterschätzer        : ", sigsqr_hat,
-    "\n                 Zweistichproben-T-Teststatistik : ", t,
-    "\n                 p-Wert                          : ", pval,
-    "\n                 Post-hoc power                  : ", p_delta_hat)
+cat("                 Betaparameterschätzer (Online, F2F): ", beta_hat,
+    "\n                 95%-Konfidenzintervall beta_1      : ", kappa[1,],
+    "\n                 95%-Konfidenzintervall beta_2      : ", kappa[2,],
+    "\n                 Varianzparameterschätzer           : ", sigsqr_hat,
+    "\n                 Zweistichproben-T-Teststatistik    : ", t,
+    "\n                 p-Wert                             : ", pval,
+    "\n                 Post-hoc power                     : ", p_delta_hat)
 ```
 \normalsize
 
@@ -126,9 +126,10 @@ cat("                 Betaparameterschätzer           : ", beta_hat,
 ```{r echo = F, eval = F}
 #| label: Visualisierung (low-level)
 # Datenanalysevisualisierung
-# install.packages("vioplot")
+
 library(latex2exp)
 library(vioplot)
+
 fname       <- "4-Zweistichproben-T-Test.csv"
 D           <- read.csv(fname)
 D$Diff      = -(D$Post - D$Pre)
@@ -248,7 +249,7 @@ library(ggplot2)                                                               #
 
 # Daten vorbereiten
 fname       <- "4-Zweistichproben-T-Test.csv"                                  # Dateiname
-D           <- read.table(fname, sep = ",", header = TRUE)                     # Laden des Datensatzes
+D           <- read.csv(fname)                                                 # Laden des Datensatzes
 D_processed <- D %>%
   mutate(Diff = as.numeric(Post - Pre)) %>%                                    # Neue Variable berechnen
   mutate(Diff_betrag = as.numeric(-(Post - Pre)))
@@ -280,7 +281,7 @@ ggsave(                                                                        #
   filename = "4-Zweistichproben-T-Test-ggplot.pdf",
   width    = 5,
   height   = 5
-  )
+)
 ```
 
 \newpage
@@ -294,15 +295,13 @@ Stellen Sie die Ausgangsfrage von  @wagner2014 dar und erläutern Sie kurz mögl
 
 ### Methoden {-}
 
-Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie die Designmatrixform des Zweistichproben-T-Test-Modells 
-und vergleichen Sie diese mit der Designmatrixform des Einstichproben-T-Test-Modells aus Übungsblatt 3. Erläutern Sie 
-insbesondere, wie sich der Kontrastgewichtsvektor $c = (1, -1)^T$ auf die Teststatistik auswirkt. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
+Beschreiben Sie die Patient:innen- und Therapiebedingungsgruppen. Erläutern Sie verbal die Designmatrixform des Zweistichproben-T-Test-Modells und vergleichen Sie diese mit der Designmatrixform des Einstichproben-T-Test-Modells aus Übungsblatt 3. Erläutern Sie insbesondere, wie sich der Kontrastgewichtsvektor $c = (1, -1)^T$ auf die Teststatistik auswirkt. Dokumentieren Sie Ihre Datenanalyse in Form kommentierten **R** Codes zur Lösung von Programmieraufgabe 1.
 
 ### Resultate {-}
 
 Reportieren Sie die von Ihnen bestimmten Statistiken aus Programmieraufgabe 1 und beziehen Sie zur Validität der Nullhypothese $\mu_0 = 0$ Stellung. Kommentieren Sie weiterhin vor diesem Hintergrund den resultierenden Wert der Post-hoc Power. Beschreiben Sie die in Programmieraufgabe 2 erstellte Abbildung.
 
-### Schlußfolgerung {-}
+### Schlussfolgerung {-}
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
 

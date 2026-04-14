@@ -204,7 +204,7 @@ Erläutern Sie kurz die Ideen der *Kognitiven Verhaltenstherapie* und der *Psych
 
 Berichten Sie die nach Programmieraufgabe 1 zu bestimmenden Statistiken und skizzieren sie jeweils kurz ihre jeweilige intuitive Bedeutung. Erläutern Sie die im Rahmen von Programmieraufgabe 2 erstellte Abbildung. Ordnen Sie die erhaltene Korrelation anhand ihrer Stärke ein.
 
-### Schlußfolgerung {-}
+### Schlussfolgerung {-}
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen und erläutern Sie drei mögliche Gründe für den beobachteten schwachen Zusammenhang von *Question* Intent und *SCL-90 Change Index*.
 

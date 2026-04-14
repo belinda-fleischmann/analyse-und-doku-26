@@ -151,7 +151,7 @@ summary(res)
 Balkendiagramm mit Fehlerbalken und den gesamten Datensatz als Boxplot. Ihre
 Abbildung sollte in etwa aussehen wie @fig-abbildung.
 
-```{r echo = F, eval = T}
+```{r echo = F, eval = F}
 #| label: Visualisierung (low-level)
 dev.new()
 pdf(
@@ -285,7 +285,7 @@ Beschreiben Sie die Patient:innen und Therapiebedingungsgruppen. Erläutern Sie,
 
 Reportieren Sie die von Ihnen in Programmieraufgabe 1 bestimmten Deskriptivstatistiken sowie das Ergebnis der einfaktoriellen Varianzanalyse. Erläutern Sie das in der Abbildung aus Programmieraufgabe 2 erhaltene Datenmuster.
 
-### Schlußfolgerung {-}
+### Schlussfolgerung {-}
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen. 
 

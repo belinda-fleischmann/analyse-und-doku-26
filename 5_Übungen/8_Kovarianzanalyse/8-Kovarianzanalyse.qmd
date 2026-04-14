@@ -367,7 +367,7 @@ Beschreiben Sie die linearen Modelle `ALM 1` und `ALM 2`, die Sie zur Lösung de
 
 Diskutieren Sie die Größen des Betaparameterschätzers und der T-Statistik für den Therapieeffektregressor im Kontext von `ALM 1` und `ALM 2`. Betrachten Sie dabei auch den Varianzparameterschätzer. Erläutern Sie Ihre Ergebnisse im Kontext des Zusammenspiels der Dauer einer bestehenden Depressionssymptomatik bei Therapiebeginn und der in diesem Datensatz abgebildeten Therapieeffektivität.
 
-### Schlußfolgerung {-}
+### Schlussfolgerung {-}
 
 Fassen Sie die von Ihnen erstellte Dokumentation in drei Sätzen zusammen.
 

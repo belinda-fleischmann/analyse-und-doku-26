@@ -43,6 +43,14 @@ Fr, 24.07.2026 &           &           & Klausurtermin  &                       
 
 \vfill
 
+#  
+\vfill
+\center
+\huge
+\textcolor{black}{(2) Forschungsethik}
+\vfill
+
+
 #
 \large
 \setstretch{2.5}

@@ -270,6 +270,19 @@ Reproduzierbarkeitskrise in Machine-Learning-basierter Wissenschaft
 \tiny
 @miske2026
 
+# Das Replizierbarkeitskrisennarrativ
+\vfill
+
+[\textcolor{linkblue}{SCORE Project}](https://www.cos.io/score)
+
+
+\center
+\vspace{3mm}
+![](../Abbildungen/ad_4_miske_4.png){width=70%}
+\vfill
+\flushright
+\tiny
+@miske2026
 
 
 # Das Replizierbarkeitskrisennarrativ

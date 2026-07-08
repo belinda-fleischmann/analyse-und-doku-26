@@ -115,7 +115,7 @@ kable(S, digits = 1)                                                    # Visual
 # Inferenzstatistik
 cat("Zweifaktorielle Varianzanalyse mit Interaktion")                          # user information
 glm         <- lm(dBDI ~ Form + Treatment + Form:Treatment, data = D)          # Modellformulierung und Modellschätzung
-knitr::kable(anova(glm), digits = 2)                                           # ANOVA Tabelllenausgabe
+knitr::kable(anova(glm), digits = 3)                                           # ANOVA Tabelllenausgabe
 ```
 
 \normalsize
